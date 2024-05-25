@@ -16,7 +16,6 @@ def translate_data_part(token: str) -> tuple[str, list[str | int | Opcode]]:
         Opcode.STRING,
         Opcode.BUFFER,
     ], f"Wrong instruction in data part {token}"
-    tokens = []
 
     if opcode == Opcode.NUMBER:
         num = int(arg)

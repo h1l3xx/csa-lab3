@@ -29,11 +29,12 @@ class ControlUnit:
     def decode_and_execute(self):
         instruction = self.instruction_memory[self.program_counter]
 
+        instruction.split("")
+
         self.tick()
 
         opcode = "opcode"
         operand = 1
-        optype = "optype"
 
         match opcode:
             case Opcode.PUSH:
