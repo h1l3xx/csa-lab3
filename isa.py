@@ -46,8 +46,6 @@ opcode_values = [e.value for e in Opcode]
 
 def write_code(target: str, code: list[dict[str, int | str | Opcode | Any] | dict[str, int | Any]]):
     with open(target, "w", encoding="utf-8") as file:
-        # Почему не: `file.write(json.dumps(code, indent=4))`?
-        # Чтобы одна инструкция была на одну строку.
         buf = []
         for instr in code:
             buf.append(json.dumps(instr))

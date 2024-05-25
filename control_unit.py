@@ -48,7 +48,7 @@ class ControlUnit:
                 self.tick()
             case Opcode.POP:
                 if self.data_path.data_stack.is_empty():
-                    # НУЖНО ДОБАВИТЬ ПРЕРЫВНИЯ
+                    # INTERRUPTION
                     self.tick()
                 else:
                     self.data_path.data_stack.pop()
@@ -100,7 +100,7 @@ class ControlUnit:
                 self.tick()
 
                 if b == 0:
-                    # ДОБАВИТЬ ОШИБКУ И ПРЕРЫВАНИЯ
+                    # ADD ERROR AND INTERRUPTION
                     self.tick()
                 else:
                     # self.logger.log(LogLevel.DEBUG, Place.ALU, f"Dividing {a} and {b}")
