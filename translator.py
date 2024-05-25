@@ -1,5 +1,4 @@
 import argparse
-
 from isa import *
 from isa import Opcode
 
@@ -134,10 +133,10 @@ def translate_stage_2(
         else:
             if isinstance(token, int):
                 assert 0 <= token <= MAX_UNSIGN, f"16-bit numbers only {token}"
-                data.append(token)
-            elif "MEM" in token:
-                data.append(token)
-    data[0] = len(data) - 1
+                data.append({"index": ind, "opcode": Opcode.DATA.value, "arg": token})
+            elif " MEM" in token:
+                data.append({"index": ind, "opcode": Opcode.DATA_SIZE.value, "arg": token.split(" ")[0]})
+    data[0] = {"index": 0, "opcode": Opcode.DATA_SIZE.value, "arg": (len(data) - 1)}
     code = data + code
     return code
 
@@ -154,7 +153,7 @@ def main(source: str, target: str):
         text = f.read()
 
     code = translate(text)
-
+    print(code)
     write_code(target, code)
     print("LoC:", len(text.split("\n")), "Code bytes:", len(code) * BITS // 8)
 

@@ -40,6 +40,9 @@ class Opcode(Enum):
     STRING = "STRING"
     BUFFER = "BUFFER"
 
+    DATA = "DATA"
+    DATA_SIZE = "DATA_SIZE"
+
 
 opcode_values = [e.value for e in Opcode]
 
@@ -53,11 +56,11 @@ def write_code(target: str, code: list[dict[str, int | str | Opcode | Any] | dic
 
 
 def read_code(source: str) -> list[int]:
-    code = []
-    with open(source, "rb") as f:
-        short = f.read(4)
-        while short:
-            code.append(*struct.unpack("I", short))
-            short = f.read(4)
+    with open(source, encoding="utf-8") as file:
+        code = json.loads(file.read())
+
+    for instr in code:
+        # Конвертация строки в Opcode
+        instr["opcode"] = Opcode(instr["opcode"])
 
     return code
