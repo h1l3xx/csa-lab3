@@ -1,9 +1,9 @@
 from alu import ALU
-from control_unit import ControlUnit
 from stack import Stack
 
 
 class DataPath:
+    from control_unit import ControlUnit
     data: list[int] = None
 
     data_address: int = None

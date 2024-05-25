@@ -1,8 +1,9 @@
-from data_path import DataPath
+
 from isa import Opcode
 
 
 class ControlUnit:
+    from data_path import DataPath
     tick_counter: int = None
     data_path: DataPath = None
     program_counter: int = None
