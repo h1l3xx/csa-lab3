@@ -20,9 +20,13 @@ def start(input_file: str, stack_size: int):
 
     data_path = DataPath(data_memory, int(stack_size))
     control_unit = ControlUnit(data_path, code)
-    while True:
-        control_unit.decode_and_execute()
-        control_unit.inc_program_counter()
+
+    while not control_unit.exit:
+        if control_unit.interrupt_stack.is_empty():
+            control_unit.decode_and_execute()
+        else:
+            control_unit.interrupt_handling()
+    print("Program finished")
 
 
 if __name__ == '__main__':

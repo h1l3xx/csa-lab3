@@ -1,22 +1,27 @@
-import sys
-
 from isa import Opcode
+from data_path import DataPath
+from stack import Stack
+from interruption import Interruption, InterruptionType
 
 
 class ControlUnit:
-    from data_path import DataPath
     tick_counter: int = None
     data_path: DataPath = None
     program_counter: int = None
     current_operand: int = None
 
+    exit = False
+
     instruction_memory: list[int] = None
+
+    interrupt_stack = None
 
     def __init__(self, dp: DataPath, memory: list[int]):
         self.tick_counter = 0
         self.program_counter = 0
         self.data_path = dp
         self.instruction_memory = memory
+        self.interrupt_stack = Stack(len(memory))
 
     def tick(self):
         self.tick_counter += 1
@@ -27,8 +32,13 @@ class ControlUnit:
     def inc_program_counter(self):
         self.program_counter += 1
 
-    def decode_and_execute(self):
+    def interrupt_handling(self):
+        interrupt = self.interrupt_stack.pop()
+        match interrupt.type.name:
+            case InterruptionType.HLT.value:
+                self.exit = True
 
+    def decode_and_execute(self):
         instruction = self.instruction_memory[self.program_counter]
         self.tick()
 
@@ -139,7 +149,7 @@ class ControlUnit:
                 self.data_path.data_stack.push(self.data_path.alu.result)
                 self.tick()
             case Opcode.JMP:
-                arg = instruction["arg"] - self.data_path.data_size - 2
+                arg = instruction["arg"] - self.data_path.data_size
                 self.set_program_counter(arg)
             case Opcode.PRINT:
                 print(chr(self.data_path.data[self.data_path.data_stack.peek()]))
@@ -151,7 +161,13 @@ class ControlUnit:
                 self.data_path.alu.compare(a, b)
             case Opcode.JNE:
                 if not self.data_path.alu.zero:
-                    arg = instruction["arg"] - self.data_path.data_size - 2
+                    arg = instruction["arg"] - self.data_path.data_size
                     self.set_program_counter(arg)
             case Opcode.HLT:
-                sys.exit(123)
+                interruption = Interruption(InterruptionType.HLT)
+
+                self.interrupt_stack.push(interruption)
+                self.tick()
+            case Opcode.NOP:
+                self.tick()
+        self.inc_program_counter()

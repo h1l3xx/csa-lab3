@@ -139,6 +139,10 @@ def translate_stage_2(
                 code.append(
                     {"index": ind, "opcode": token.value}
                 )
+            if token in [Opcode.JMP, Opcode.JNE, Opcode.PUSH]:
+                code.append(
+                    {"index": ind + 1, "opcode": Opcode.NOP.value}
+                )
         else:
             if data_part:
                 if isinstance(token, int):
