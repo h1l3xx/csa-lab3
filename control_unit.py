@@ -1,3 +1,4 @@
+import sys
 
 from isa import Opcode
 
@@ -9,9 +10,9 @@ class ControlUnit:
     program_counter: int = None
     current_operand: int = None
 
-    instruction_memory: list[str] = None
+    instruction_memory: list[int] = None
 
-    def __init__(self, dp: DataPath, memory: list[str]):
+    def __init__(self, dp: DataPath, memory: list[int]):
         self.tick_counter = 0
         self.program_counter = 0
         self.data_path = dp
@@ -27,18 +28,22 @@ class ControlUnit:
         self.program_counter += 1
 
     def decode_and_execute(self):
+
         instruction = self.instruction_memory[self.program_counter]
-
-        instruction.split("")
-
         self.tick()
 
-        opcode = "opcode"
-        operand = 1
+        opcode = instruction["opcode"]
 
         match opcode:
             case Opcode.PUSH:
-                self.data_path.data_stack.push(operand)
+                arg = instruction["arg"]
+                self.data_path.data_stack.push(arg)
+                self.tick()
+            case Opcode.PUSH_VAL:
+                arg = instruction["arg"]
+                value = self.data_path.data[arg]
+                self.tick()
+                self.data_path.data_stack.push(value)
                 self.tick()
             case Opcode.DUP:
                 value = self.data_path.data_stack.peek()
@@ -98,7 +103,7 @@ class ControlUnit:
                 self.tick()
                 a = self.data_path.data_stack.pop()
                 self.tick()
-
+                print(b, a)
                 if b == 0:
                     # ADD ERROR AND INTERRUPTION
                     self.tick()
@@ -133,3 +138,20 @@ class ControlUnit:
                 self.tick()
                 self.data_path.data_stack.push(self.data_path.alu.result)
                 self.tick()
+            case Opcode.JMP:
+                arg = instruction["arg"] - self.data_path.data_size - 2
+                self.set_program_counter(arg)
+            case Opcode.PRINT:
+                print(chr(self.data_path.data[self.data_path.data_stack.peek()]))
+            case Opcode.COMPARE:
+                a = self.data_path.data_stack.peek()
+                self.data_path.data_stack.pop()
+                b = self.data_path.data_stack.peek()
+                self.data_path.data_stack.push(a)
+                self.data_path.alu.compare(a, b)
+            case Opcode.JNE:
+                if not self.data_path.alu.zero:
+                    arg = instruction["arg"] - self.data_path.data_size - 2
+                    self.set_program_counter(arg)
+            case Opcode.HLT:
+                sys.exit(123)
