@@ -1,4 +1,6 @@
 import argparse
+
+import isa
 from isa import *
 from isa import Opcode
 
@@ -45,6 +47,7 @@ def translate_code_part(token: str) -> list[str | int | Opcode]:
         ), f"Invalid instruction, check arguments amount: {token}"
         opcode = Opcode[sub_tokens[0]]
         assert opcode in [
+            Opcode.PRINT,
             Opcode.PUSH,
             Opcode.PUSH_VAL,
             Opcode.JMP,
@@ -58,6 +61,11 @@ def translate_code_part(token: str) -> list[str | int | Opcode]:
             assert MIN_SIGN <= arg < MAX_SIGN, f"16-bit numbers only {token}"
             if arg < 0:
                 arg = MAX_UNSIGN + arg
+        if arg == "OUTPUT":
+            arg = 3
+        elif arg == "INPUT":
+            arg = 2
+        print(arg)
 
         tokens += [opcode, arg]
 
@@ -116,17 +124,20 @@ def translate_stage_2(
     labels: dict[str, int], variables: dict[str, int], tokens: list[str | int | Opcode]
 ) -> list[dict[str, int | str | Opcode | Any] | dict[str, int | Any]]:
     labels_indexes = []
-    for label in labels:
-        labels_indexes.append(labels[label])
     code = []
     data = []
+    for label in labels:
+        labels_indexes.append(labels[label])
+        if label == "interrupt":
+            data.insert(0, {"index": -1, "opcode": Opcode.DATA.value, "arg": labels[label]})
+
     data_part = True
     for ind, token in enumerate(tokens):
         if ind in labels_indexes:
             code.append({"index": ind, "opcode": Opcode.NOP.value})
         if isinstance(token, Opcode):
             data_part = False
-            if token in [Opcode.JMP, Opcode.JZ, Opcode.CALL, Opcode.PUSH, Opcode.PUSH_VAL, Opcode.JNE]:
+            if token in [Opcode.JMP, Opcode.JZ, Opcode.CALL, Opcode.PUSH, Opcode.PUSH_VAL, Opcode.JNE, Opcode.PRINT]:
                 next_token = tokens[ind + 1]
                 if next_token in labels:
                     next_token = labels[next_token]
@@ -150,8 +161,9 @@ def translate_stage_2(
                     data.append({"index": ind, "opcode": Opcode.DATA.value, "arg": token})
                 elif " MEM" in token:
                     data.append({"index": ind, "opcode": Opcode.DATA_SIZE.value, "arg": token.split(" ")[0]})
-    data[0] = {"index": 0, "opcode": Opcode.DATA_SIZE.value, "arg": (len(data) - 1)}
+    data[1] = {"index": 0, "opcode": Opcode.DATA_SIZE.value, "arg": (len(data) - 2)}
     code = data + code
+
     return code
 
 

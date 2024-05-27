@@ -9,6 +9,10 @@ class ControlUnit:
     data_path: DataPath = None
     program_counter: int = None
     current_operand: int = None
+    interrupt_schedule: dict = dict()
+    interruption_vector_addr = None
+    interruption_section = False
+    inter_buff = 0
 
     exit = False
 
@@ -16,12 +20,15 @@ class ControlUnit:
 
     interrupt_stack = None
 
-    def __init__(self, dp: DataPath, memory: list[int]):
+    def __init__(self, dp: DataPath, memory: list[int], schedule: list, interrupt_vector_addr):
         self.tick_counter = 0
         self.program_counter = 0
         self.data_path = dp
         self.instruction_memory = memory
         self.interrupt_stack = Stack(len(memory))
+        self.convert_schedule(schedule)
+
+        self.interruption_vector_addr = interrupt_vector_addr
 
     def tick(self):
         self.tick_counter += 1
@@ -37,9 +44,43 @@ class ControlUnit:
         match interrupt.type.name:
             case InterruptionType.HLT.value:
                 self.exit = True
+                self.tick()
+            case InterruptionType.INPUT.value:
+                if self.interruption_vector_addr is not None:
+                    print(self.interruption_vector_addr)
+                    print(self.data_path.data_size)
+
+                    print(self.instruction_memory)
+                    self.program_counter = self.interruption_vector_addr - self.data_path.data_size
+                    self.inter_buff = self.program_counter
+                    self.interruption_section = True
+                    while self.interruption_section:
+                        self.decode_and_execute()
+
+    def convert_schedule(self, schedule):
+        for instruction in schedule:
+            tick, value = instruction.split(" : ")
+            self.interrupt_schedule[int(tick)] = str(value)
+
+    def start(self):
+        while not self.exit:
+            try:
+                print("tick")
+                print(self.tick_counter)
+                if self.interrupt_schedule[self.tick_counter] is not None:
+                    interruption = Interruption(InterruptionType.INPUT)
+                    self.interrupt_stack.push(interruption)
+                    self.interrupt_handling()
+            except Exception:
+                if self.interrupt_stack.is_empty():
+                    self.decode_and_execute()
+                else:
+                    self.interrupt_handling()
 
     def decode_and_execute(self):
+        print(self.data_path.data_stack)
         instruction = self.instruction_memory[self.program_counter]
+        print(instruction)
         self.tick()
 
         opcode = instruction["opcode"]
@@ -165,9 +206,13 @@ class ControlUnit:
                     self.set_program_counter(arg)
             case Opcode.HLT:
                 interruption = Interruption(InterruptionType.HLT)
-
                 self.interrupt_stack.push(interruption)
                 self.tick()
             case Opcode.NOP:
                 self.tick()
+            case Opcode.RETURN:
+                self.interruption_section = False
+                if self.interruption_vector_addr is not None:
+                    self.program_counter, self.interruption_vector_addr = 0, self.interruption_vector_addr
+
         self.inc_program_counter()

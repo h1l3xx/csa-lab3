@@ -35,12 +35,14 @@ class Opcode(Enum):
     DIV = "DIV"
     MOD = "MOD"
 
-    INPUT = "INPUT"
-    OUTPUT = "OUTPUT"
+    INPUT = 1
+    OUTPUT = 2
 
     NUMBER = "NUMBER"
     STRING = "STRING"
     BUFFER = "BUFFER"
+
+    RETURN = "RETURN"
 
     DATA = "DATA"
     DATA_SIZE = "DATA_SIZE"
@@ -75,3 +77,9 @@ def decode_data_line(line) -> int | None:
         return int(line["arg"])
     else:
         return None
+
+
+def read_data(source: str) -> list[str]:
+    with open(source, encoding="utf-8") as file:
+        data = file.read()
+    return data.split("\n")
