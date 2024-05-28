@@ -13,11 +13,11 @@ def simulate(input_file: str, stack_size: int, schedule: str):
         data_size = read[1]["arg"]
         data = read[2:data_size + 2]
         interruption_vector_addr = read[0]["arg"]
+        code = read[data_size + 2:]
     else:
         data_size = read[0]["arg"]
-        data = read[1:data_size + 1]
-
-    code = read[data_size + 2:]
+        data = read[1:data_size+1]
+        code = read[data_size+1:]
     data_memory = []
     for i in range(data_size):
         decode = decode_data_line(data[i])

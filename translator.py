@@ -1,6 +1,5 @@
 import argparse
 
-import isa
 from isa import *
 from isa import Opcode
 
@@ -9,7 +8,8 @@ def get_meaningful_token(line: str) -> str:
     return line.split(";", 1)[0].strip()
 
 
-def translate_data_part(token: str) -> tuple[str, list[str | int | Opcode]]:
+def translate_data_part(token: str, data_length: int) -> tuple[int, Any, list[int | Any] | list[int | str] | list[int]]:
+    current_data = data_length
     print(token)
     variable, str_opcode, arg = token.split(" ", 2)
     opcode = Opcode[str_opcode]
@@ -26,7 +26,11 @@ def translate_data_part(token: str) -> tuple[str, list[str | int | Opcode]]:
             num = MAX_UNSIGN + num
         tokens = [num]
     elif opcode == Opcode.STRING:
-        start = str(len(arg)) + " MEM"
+        if current_data != 0:
+            current_data += len(arg) + 2
+        else:
+            current_data += len(arg)
+        start = str(current_data) + " MEM"
         tokens = [start] + [ord(c) for c in arg]
     elif opcode == Opcode.BUFFER:
         num = int(arg)
@@ -35,7 +39,7 @@ def translate_data_part(token: str) -> tuple[str, list[str | int | Opcode]]:
     else:
         raise ValueError(f"Wrong opcode: {opcode}")
 
-    return variable, tokens
+    return current_data, variable, tokens
 
 
 def translate_code_part(token: str) -> list[str | int | Opcode]:
@@ -53,7 +57,8 @@ def translate_code_part(token: str) -> list[str | int | Opcode]:
             Opcode.JMP,
             Opcode.JZ,
             Opcode.CALL,
-            Opcode.JNE
+            Opcode.JNE,
+            Opcode.LOAD
         ], f"Instruction shouldn't have an argument: {token}"
         arg = sub_tokens[1]
         if arg.isdigit():
@@ -62,9 +67,9 @@ def translate_code_part(token: str) -> list[str | int | Opcode]:
             if arg < 0:
                 arg = MAX_UNSIGN + arg
         if arg == "OUTPUT":
-            arg = 3
+            arg = 1
         elif arg == "INPUT":
-            arg = 2
+            arg = 0
         print(arg)
 
         tokens += [opcode, arg]
@@ -88,6 +93,7 @@ def translate_stage_1(
 
     data_counter = 0
     program_counter = 0
+    data_length = 0
     for line in text.splitlines():
         token = get_meaningful_token(line)
         if not data_stage and token == ".data":
@@ -102,7 +108,7 @@ def translate_stage_1(
             continue
 
         if data_stage:
-            variable, data_part = translate_data_part(token)
+            data_length, variable, data_part = translate_data_part(token, data_length)
             assert variable not in variables, f"Redefinition of variable: {variable}"
             variables[variable] = data_counter
             data_counter += len(data_part)
@@ -126,10 +132,12 @@ def translate_stage_2(
     labels_indexes = []
     code = []
     data = []
+    interrupt = False
     for label in labels:
         labels_indexes.append(labels[label])
         if label == "interrupt":
             data.insert(0, {"index": -1, "opcode": Opcode.DATA.value, "arg": labels[label]})
+            interrupt = True
 
     data_part = True
     for ind, token in enumerate(tokens):
@@ -137,7 +145,7 @@ def translate_stage_2(
             code.append({"index": ind, "opcode": Opcode.NOP.value})
         if isinstance(token, Opcode):
             data_part = False
-            if token in [Opcode.JMP, Opcode.JZ, Opcode.CALL, Opcode.PUSH, Opcode.PUSH_VAL, Opcode.JNE, Opcode.PRINT]:
+            if token in [Opcode.JMP, Opcode.JZ, Opcode.CALL, Opcode.JNE, Opcode.PRINT]:
                 next_token = tokens[ind + 1]
                 if next_token in labels:
                     next_token = labels[next_token]
@@ -146,11 +154,18 @@ def translate_stage_2(
                 code.append(
                     {"index": ind, "opcode": token.value, "arg": next_token}
                 )
+            elif token in [Opcode.PUSH_VAL, Opcode.PUSH, Opcode.LOAD]:
+                next_token = tokens[ind + 1]
+                if next_token in variables:
+                    next_token = variables[next_token] + 2
+                code.append(
+                    {"index": ind, "opcode": token.value, "arg": next_token}
+                )
             else:
                 code.append(
                     {"index": ind, "opcode": token.value}
                 )
-            if token in [Opcode.JMP, Opcode.JNE, Opcode.PUSH]:
+            if token in [Opcode.JMP]:
                 code.append(
                     {"index": ind + 1, "opcode": Opcode.NOP.value}
                 )
@@ -161,7 +176,10 @@ def translate_stage_2(
                     data.append({"index": ind, "opcode": Opcode.DATA.value, "arg": token})
                 elif " MEM" in token:
                     data.append({"index": ind, "opcode": Opcode.DATA_SIZE.value, "arg": token.split(" ")[0]})
-    data[1] = {"index": 0, "opcode": Opcode.DATA_SIZE.value, "arg": (len(data) - 2)}
+    if interrupt:
+        data[1] = {"index": 0, "opcode": Opcode.DATA_SIZE.value, "arg": (len(data) - 2)}
+    else:
+        data[0] = {"index": 0, "opcode": Opcode.DATA_SIZE.value, "arg": len(data) - 1}
     code = data + code
 
     return code

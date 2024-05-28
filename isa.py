@@ -16,6 +16,7 @@ class Opcode(Enum):
     JZ = "JZ"
     JNE = "JNE"
     CALL = "CALL"
+    SAVE = "SAVE"
     # RET = 0b10000101
 
     PUSH = "PUSH"
@@ -35,8 +36,8 @@ class Opcode(Enum):
     DIV = "DIV"
     MOD = "MOD"
 
-    INPUT = 1
-    OUTPUT = 2
+    INPUT = 0
+    OUTPUT = 1
 
     NUMBER = "NUMBER"
     STRING = "STRING"

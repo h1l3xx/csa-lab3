@@ -12,16 +12,17 @@ class DataPath:
     data_size = None
     alu: ALU = None
     input_buffer_size: int = 0
-    input_buffer: list[str] = None
-    output_buffer: list[str] = None
+    input_buffer: int
+    output_buffer: list[str]
 
     def __init__(self, memory: list[int], stack_size: int):
         self.data_stack = Stack(stack_size)
-        self.data = memory
+        self.input_buffer = 0
+        self.output_buffer = []
+        self.data = [0, 1] + memory
         self.data_size = len(memory)
         self.alu = ALU()
-        self.input_buffer = []
-        self.output_buffer = []
+
 
     def set_tos(self):
         self.tos = self.data_stack.peek()

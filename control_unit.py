@@ -47,26 +47,34 @@ class ControlUnit:
                 self.tick()
             case InterruptionType.INPUT.value:
                 if self.interruption_vector_addr is not None:
-                    print(self.interruption_vector_addr)
-                    print(self.data_path.data_size)
-
-                    print(self.instruction_memory)
                     self.program_counter = self.interruption_vector_addr - self.data_path.data_size
                     self.inter_buff = self.program_counter
+                    self.check_interruption(interrupt)
                     self.interruption_section = True
                     while self.interruption_section:
                         self.decode_and_execute()
 
     def convert_schedule(self, schedule):
         for instruction in schedule:
-            tick, value = instruction.split(" : ")
-            self.interrupt_schedule[int(tick)] = str(value)
+            print(instruction)
+            try:
+                tick, value = instruction.split(" : ")
+                self.interrupt_schedule[int(tick)] = str(value)
+            except ValueError:
+                tick = instruction.split(" :")[0]
+                self.interrupt_schedule[int(tick)] = "brake"
+
+    def check_interruption(self, interruption: Interruption):
+        if interruption.type.value == "INPUT":
+            if self.interrupt_schedule[self.tick_counter] != 'brake':
+                self.data_path.data[0] = self.interrupt_schedule[self.tick_counter]
+            else:
+                print(self.data_path.output_buffer)
+                exit(465)
 
     def start(self):
         while not self.exit:
             try:
-                print("tick")
-                print(self.tick_counter)
                 if self.interrupt_schedule[self.tick_counter] is not None:
                     interruption = Interruption(InterruptionType.INPUT)
                     self.interrupt_stack.push(interruption)
@@ -78,9 +86,19 @@ class ControlUnit:
                     self.interrupt_handling()
 
     def decode_and_execute(self):
-        print(self.data_path.data_stack)
+
+
+        print("--------")
+        print("tick")
+        print(self.program_counter)
+        print(self.instruction_memory)
         instruction = self.instruction_memory[self.program_counter]
+        print(self.tick_counter)
+        print(self.program_counter)
         print(instruction)
+        print(self.data_path.data_stack)
+        print(self.data_path.output_buffer)
+        print("-------------")
         self.tick()
 
         opcode = instruction["opcode"]
@@ -193,8 +211,10 @@ class ControlUnit:
                 arg = instruction["arg"] - self.data_path.data_size
                 self.set_program_counter(arg)
             case Opcode.PRINT:
-                print(chr(self.data_path.data[self.data_path.data_stack.peek()]))
+                value = self.data_path.data_stack.pop()
+                self.data_path.output_buffer.append(chr(value))
             case Opcode.COMPARE:
+                print(self.data_path.data_stack)
                 a = self.data_path.data_stack.peek()
                 self.data_path.data_stack.pop()
                 b = self.data_path.data_stack.peek()
@@ -204,15 +224,26 @@ class ControlUnit:
                 if not self.data_path.alu.zero:
                     arg = instruction["arg"] - self.data_path.data_size
                     self.set_program_counter(arg)
+                    self.data_path.alu.zero = False
             case Opcode.HLT:
                 interruption = Interruption(InterruptionType.HLT)
                 self.interrupt_stack.push(interruption)
                 self.tick()
+                print(self.data_path.output_buffer)
             case Opcode.NOP:
                 self.tick()
             case Opcode.RETURN:
                 self.interruption_section = False
                 if self.interruption_vector_addr is not None:
                     self.program_counter, self.interruption_vector_addr = 0, self.interruption_vector_addr
-
+            case Opcode.SAVE:
+                self.data_path.output_buffer.append(chr(self.data_path.data[self.data_path.data_stack.pop()]))
+            case Opcode.LOAD:
+                arg = instruction["arg"]
+                value = self.data_path.data[arg]
+                self.tick()
+                self.data_path.data_stack.push(ord(value))
+                self.tick()
+            case Opcode.SWAP:
+                self.data_path.output_buffer.reverse()
         self.inc_program_counter()
