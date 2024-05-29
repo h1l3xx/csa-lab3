@@ -27,12 +27,16 @@ def translate_data_part(token: str, data_length: int) -> tuple[int, Any, list[in
             num = MAX_UNSIGN + num
         tokens = [num]
     elif opcode == Opcode.STRING:
-        if current_data != 0:
-            current_data += len(arg) + 2
+        if '"' in arg:
+            current_arg = arg[1:-1]
         else:
-            current_data += len(arg)
+            current_arg = arg
+        if current_data != 0:
+            current_data += len(current_arg) + 2
+        else:
+            current_data += len(current_arg)
         start = str(current_data) + " MEM"
-        tokens = [start] + [ord(c) for c in arg]
+        tokens = [start] + [ord(c) for c in current_arg]
     elif opcode == Opcode.BUFFER:
         num = int(arg)
         assert 1 <= num <= MAX_UNSIGN, f"Wrong instruction argument: {token}"
@@ -59,7 +63,8 @@ def translate_code_part(token: str) -> list[str | int | Opcode]:
             Opcode.JZ,
             Opcode.CALL,
             Opcode.JNE,
-            Opcode.LOAD
+            Opcode.LOAD,
+            Opcode.JEQ
         ], f"Instruction shouldn't have an argument: {token}"
         arg = sub_tokens[1]
         if arg.isdigit():

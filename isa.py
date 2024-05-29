@@ -15,6 +15,7 @@ class Opcode(Enum):
     JMP = "JMP"
     JZ = "JZ"
     JNE = "JNE"
+    JEQ = "JEQ"
     CALL = "CALL"
     SAVE = "SAVE"
     # RET = 0b10000101
