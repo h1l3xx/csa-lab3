@@ -1,4 +1,5 @@
 import argparse
+import types
 
 from isa import *
 from isa import Opcode
@@ -47,7 +48,7 @@ def translate_code_part(token: str) -> list[str | int | Opcode]:
     if " " in token:  # instruction with argument
         sub_tokens = token.split(" ")
         assert (
-            len(sub_tokens) == 2
+                len(sub_tokens) == 2
         ), f"Invalid instruction, check arguments amount: {token}"
         opcode = Opcode[sub_tokens[0]]
         assert opcode in [
@@ -72,7 +73,7 @@ def translate_code_part(token: str) -> list[str | int | Opcode]:
             arg = 0
         print(arg)
 
-        tokens += [opcode, arg]
+        tokens += [[opcode, arg]]
 
     else:
         # instruction without argument
@@ -83,14 +84,12 @@ def translate_code_part(token: str) -> list[str | int | Opcode]:
 
 
 def translate_stage_1(
-    text: str,
-) -> tuple[dict[str, int], dict[str, int], list[str | int | Opcode]]:
+        text: str,
+) -> tuple[dict[str, int], list[str | int | Opcode]]:
     variables = {}
-    labels = {}
     tokens = [0]  # first token is data part length
 
     data_stage = True
-
     data_counter = 0
     program_counter = 0
     data_length = 0
@@ -116,78 +115,68 @@ def translate_stage_1(
         else:
             if token.endswith(":"):  # label
                 label = token.strip(":")
-                assert label not in labels, f"Redefinition of label: {label}"
-                labels[label] = program_counter
+                tokens.append(label)
             else:
                 code_part = translate_code_part(token)
                 program_counter += len(code_part)
                 tokens += code_part
 
-    return labels, variables, tokens
+    return variables, tokens
 
 
 def translate_stage_2(
-    labels: dict[str, int], variables: dict[str, int], tokens: list[str | int | Opcode]
+        variables: dict[str, int], tokens: list[str | int | Opcode]
 ) -> list[dict[str, int | str | Opcode | Any] | dict[str, int | Any]]:
     labels_indexes = []
     code = []
     data = []
-    interrupt = False
-    for label in labels:
-        labels_indexes.append(labels[label])
-        if label == "interrupt":
-            data.insert(0, {"index": -1, "opcode": Opcode.DATA.value, "arg": labels[label]})
-            interrupt = True
+    labels = {}
 
-    data_part = True
-    for ind, token in enumerate(tokens):
-        if ind in labels_indexes:
-            code.append({"index": ind, "opcode": Opcode.NOP.value})
+    data_length = int(tokens[0])
+    data.append({"index": 0, "opcode": Opcode.DATA_SIZE.value, "arg": data_length})
+    for i in range(1, data_length + 1):
+        token = tokens[i]
+        if isinstance(token, int):
+            assert 0 <= token <= MAX_UNSIGN, f"16-bit numbers only {token}"
+            data.append({"index": i, "opcode": Opcode.DATA.value, "arg": token})
+        elif " MEM" in token:
+            data.append({"index": i, "opcode": Opcode.DATA_SIZE.value, "arg": token.split(" ")[0]})
+    code_size = len(tokens) - data_length
+
+    for i in range(data_length + code_size - 1, data_length, -1):
+        token = tokens[i]
+        if isinstance(token, str):
+            labels[token] = i
+
+    for i in range(data_length + 1, data_length + code_size):
+        token = tokens[i]
         if isinstance(token, Opcode):
-            data_part = False
-            if token in [Opcode.JMP, Opcode.JZ, Opcode.CALL, Opcode.JNE, Opcode.PRINT]:
-                next_token = tokens[ind + 1]
-                if next_token in labels:
-                    next_token = labels[next_token]
-                elif next_token in variables:
-                    next_token = variables[next_token]
-                code.append(
-                    {"index": ind, "opcode": token.value, "arg": next_token}
-                )
-            elif token in [Opcode.PUSH_VAL, Opcode.PUSH, Opcode.LOAD]:
-                next_token = tokens[ind + 1]
-                if next_token in variables:
-                    next_token = variables[next_token] + 2
-                code.append(
-                    {"index": ind, "opcode": token.value, "arg": next_token}
-                )
-            else:
-                code.append(
-                    {"index": ind, "opcode": token.value}
-                )
-            if token in [Opcode.JMP]:
-                code.append(
-                    {"index": ind + 1, "opcode": Opcode.NOP.value}
-                )
+            code.append({"index": i, "opcode": token.value})
         else:
-            if data_part:
-                if isinstance(token, int):
-                    assert 0 <= token <= MAX_UNSIGN, f"16-bit numbers only {token}"
-                    data.append({"index": ind, "opcode": Opcode.DATA.value, "arg": token})
-                elif " MEM" in token:
-                    data.append({"index": ind, "opcode": Opcode.DATA_SIZE.value, "arg": token.split(" ")[0]})
-    if interrupt:
-        data[1] = {"index": 0, "opcode": Opcode.DATA_SIZE.value, "arg": (len(data) - 2)}
-    else:
-        data[0] = {"index": 0, "opcode": Opcode.DATA_SIZE.value, "arg": len(data) - 1}
-    code = data + code
+            if isinstance(token, str):
+                continue
+            else:
+                opcode = token[0].value
+                arg = token[1]
+                if arg in labels:
+                    code.append({"index": i, "opcode": opcode, "arg": labels[arg]})
+                elif arg in variables:
+                    code.append({"index": i, "opcode": opcode, "arg": variables[arg] + 1})
+                else:
+                    code.append({"index": i, "opcode": opcode, "arg": arg})
+    for i in range(len(labels)):
+        label, index = labels.popitem()
+        if label == "interrupt":
+            data.insert(0, {"index": -1, "opcode": Opcode.DATA.value, "arg": index})
+        code.insert(index - data_length - 1, {"index": index, "opcode": Opcode.NOP.value})
 
+    code = data + code
     return code
 
 
 def translate(text: str) -> list[dict[str, int | str | Opcode | Any] | dict[str, int | Any]]:
-    labels, variables, tokens = translate_stage_1(text)
-    code = translate_stage_2(labels, variables, tokens)
+    variables, tokens = translate_stage_1(text)
+    code = translate_stage_2(variables, tokens)
 
     return code
 
