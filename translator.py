@@ -64,7 +64,8 @@ def translate_code_part(token: str) -> list[str | int | Opcode]:
             Opcode.CALL,
             Opcode.JNE,
             Opcode.LOAD,
-            Opcode.JEQ
+            Opcode.JEQ,
+            Opcode.PRINT_VAL
         ], f"Instruction shouldn't have an argument: {token}"
         arg = sub_tokens[1]
         if arg.isdigit():

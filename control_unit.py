@@ -13,7 +13,7 @@ class ControlUnit:
     interruption_vector_addr = None
     interruption_section = False
     inter_buff = 0
-    limit = 100000000000000000
+    limit = 100000000000000000000000
 
     exit = False
 
@@ -180,9 +180,9 @@ class ControlUnit:
                 self.tick()
                 self.inc_program_counter()
             case Opcode.DIV:
-                b = self.data_path.data_stack.pop()
-                self.tick()
                 a = self.data_path.data_stack.pop()
+                self.tick()
+                b = self.data_path.data_stack.pop()
                 self.tick()
                 print(b, a)
                 if b == 0:
@@ -251,6 +251,9 @@ class ControlUnit:
                 self.data_path.data_stack.push(a)
                 self.data_path.alu.compare(a, b)
                 self.inc_program_counter()
+            case Opcode.PRINT_VAL:
+                self.data_path.output_buffer.append(self.data_path.data_stack.pop())
+                self.inc_program_counter()
             case Opcode.JNE:
                 if not self.data_path.alu.zero:
                     arg = instruction["arg"] - self.data_path.data_size
@@ -279,9 +282,12 @@ class ControlUnit:
                 arg = instruction["arg"]
                 value = self.data_path.data[arg]
                 self.tick()
-                self.data_path.data_stack.push(ord(value))
+                self.data_path.data_stack.push(ord(str(value)))
                 self.tick()
                 self.inc_program_counter()
             case Opcode.SWAP:
-                self.data_path.output_buffer.reverse()
+                a = self.data_path.data_stack.pop()
+                b = self.data_path.data_stack.pop()
+                self.data_path.data_stack.push(a)
+                self.data_path.data_stack.push(b)
                 self.inc_program_counter()

@@ -28,6 +28,7 @@ class Opcode(Enum):
     SWAP = "SWAP"
     DUP = "DUP"
     COMPARE = "COMPARE"
+    PRINT_VAL = "PRINT_VAL"
 
     INC = "INC"
     DEC = "DEC"
