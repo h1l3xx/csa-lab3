@@ -23,8 +23,11 @@ class DataPath:
         self.data_size = len(memory)
         self.alu = ALU()
 
-    def load_in_memory(self, index: int, value: int):
-        self.data[index] = value
+    def load_in_memory(self, index: int, value):
+        if index <= self.data_size + 1:
+            self.data[index] = value
+        else:
+            self.data.append(value)
 
     def push_in_stack(self, value: int):
         self.data_stack.push(value)

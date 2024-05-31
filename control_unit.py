@@ -85,7 +85,7 @@ class ControlUnit:
                 self.program_counter += 2
             else:
                 value = self.interrupt_schedule[self.tick_counter]
-                self.data_path.load_in_memory(0, value)
+                self.data_path.load_in_memory(0, ord(value))
 
     def start(self):
         while not self.exit:
@@ -104,10 +104,8 @@ class ControlUnit:
                     self.interrupt_handling()
 
     def decode_and_execute(self):
-
         instruction = self.instruction_memory[self.program_counter]
         self.tick()
-
         if self.tick_counter >= self.limit:
             interruption = Interruption(InterruptionType.HLT)
             self.interrupt_stack.push(interruption)
@@ -278,7 +276,7 @@ class ControlUnit:
             case Opcode.JEQ:
                 if self.data_path.alu.result == 0:
 
-                    arg = instruction["arg"] - self.data_path.get_data_size()
+                    arg = instruction["arg"] - self.data_path.get_data_size() - 1
                     self.set_program_counter(arg)
                     self.tick()
 
@@ -300,7 +298,21 @@ class ControlUnit:
 
             case Opcode.SAVE:
 
-                index = self.data_path.pop_from_stack() + 2
+                value = self.data_path.pop_from_stack()
+                self.tick()
+
+                index = self.data_path.peek_from_stack()
+                self.tick()
+
+                self.data_path.load_in_memory(index, value)
+                self.tick()
+
+                self.tick()
+
+                self.inc_program_counter()
+
+            case Opcode.PRINT_BY_INDEX:
+                index = self.data_path.peek_from_stack() + 2
                 self.tick()
 
                 value = self.data_path.get_from_memory(index)
@@ -356,6 +368,7 @@ class ControlUnit:
                 self.interrupt_stack.push(interruption)
                 self.interruption_section = False
                 self.tick()
+                self.inc_program_counter()
 
             case Opcode.NOP:
 
@@ -368,7 +381,7 @@ class ControlUnit:
                 value = self.data_path.get_from_memory(arg)
                 self.tick()
 
-                self.data_path.data_stack.push(ord(str(value)))
+                self.data_path.data_stack.push(value)
                 self.tick()
 
                 self.inc_program_counter()

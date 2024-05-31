@@ -24,6 +24,8 @@ class Opcode(Enum):
     DUP = "DUP"
     COMPARE = "COMPARE"
 
+    PRINT_BY_INDEX = "PRINT_BY_INDEX"
+
     PRINT_VAL = "PRINT_VAL"
     PRINT = "PRINT"
 
