@@ -6,7 +6,6 @@ from data_path import DataPath
 
 
 def simulate(input_file: str, stack_size: int, schedule: str, limit: int):
-
     read = read_code(input_file)
 
     interruption_vector_addr = None
@@ -35,14 +34,12 @@ def simulate(input_file: str, stack_size: int, schedule: str, limit: int):
             data_memory.append(decode)
 
     data_path = DataPath(data_memory, int(stack_size))
-
     if len(read_schedule) > 1:
-        control_unit = ControlUnit(data_path, code, read_schedule, interruption_vector_addr, limit)
+        control_unit = ControlUnit(data_path, code, read_schedule, interruption_vector_addr, int(limit))
     else:
-        control_unit = ControlUnit(data_path, code, None, interruption_vector_addr, limit)
+        control_unit = ControlUnit(data_path, code, None, interruption_vector_addr, int(limit))
 
     control_unit.start()
-
     print("".join(control_unit.data_path.output_buffer))
 
 

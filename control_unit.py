@@ -57,11 +57,9 @@ class ControlUnit:
                 if self.interruption_vector_addr is not None:
 
                     self.program_counter = self.interruption_vector_addr - self.data_path.data_size - 1
-                    self.tick()
 
                     self.check_interruption(interrupt)
                     self.interruption_section = True
-                    self.tick()
 
                     while self.interruption_section:
                         self.decode_and_execute()
@@ -80,11 +78,11 @@ class ControlUnit:
     def check_interruption(self, interruption: Interruption):
 
         if interruption.type.value == "INPUT":
+
             if self.interrupt_schedule[self.tick_counter] == '#':
                 self.data_path.push_in_stack(35)
                 self.data_path.load_in_memory(0, 35)
                 self.program_counter += 2
-
             else:
                 value = self.interrupt_schedule[self.tick_counter]
                 self.data_path.load_in_memory(0, value)
@@ -92,6 +90,7 @@ class ControlUnit:
     def start(self):
         while not self.exit:
             try:
+
                 if self.interrupt_schedule[self.tick_counter] is not None:
 
                     interruption = Interruption(InterruptionType.INPUT)
@@ -105,13 +104,13 @@ class ControlUnit:
                     self.interrupt_handling()
 
     def decode_and_execute(self):
-        if self.tick_counter >= self.limit:
 
-            interruption = Interruption(InterruptionType.HLT)
-            self.interrupt_stack.push(interruption)
-            return
         instruction = self.instruction_memory[self.program_counter]
         self.tick()
+
+        if self.tick_counter >= self.limit:
+            interruption = Interruption(InterruptionType.HLT)
+            self.interrupt_stack.push(interruption)
 
         opcode = instruction["opcode"]
 
@@ -299,6 +298,18 @@ class ControlUnit:
 
                 self.inc_program_counter()
 
+            case Opcode.SAVE:
+
+                index = self.data_path.pop_from_stack() + 2
+                self.tick()
+
+                value = self.data_path.get_from_memory(index)
+                self.tick()
+
+                self.data_path.add_in_output_buffer(chr(value))
+                self.tick()
+
+                self.inc_program_counter()
             case Opcode.COMPARE:
 
                 a = self.data_path.peek_from_stack()
@@ -322,7 +333,7 @@ class ControlUnit:
                 value = self.data_path.data_stack.pop()
                 self.tick()
 
-                self.data_path.add_in_output_buffer(value)
+                self.data_path.add_in_output_buffer(str(value))
                 self.tick()
 
                 self.inc_program_counter()
@@ -341,32 +352,14 @@ class ControlUnit:
                     self.inc_program_counter()
 
             case Opcode.HLT:
-
                 interruption = Interruption(InterruptionType.HLT)
                 self.interrupt_stack.push(interruption)
+                self.interruption_section = False
                 self.tick()
-
-                self.inc_program_counter()
 
             case Opcode.NOP:
 
                 self.tick()
-                self.inc_program_counter()
-
-            case Opcode.SAVE:
-
-                index = self.data_path.pop_from_stack() + 2
-                self.tick()
-
-                value = self.data_path.get_from_memory(index)
-                self.tick()
-
-                self.data_path.push_in_stack(value)
-                self.tick()
-
-                self.data_path.add_in_output_buffer(chr(value))
-                self.tick()
-
                 self.inc_program_counter()
 
             case Opcode.LOAD:

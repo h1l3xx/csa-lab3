@@ -31,6 +31,8 @@ def translate_data_part(token: str, data_length: int) -> tuple[int, Any, list[in
             current_arg = arg[1:-1]
         else:
             current_arg = arg
+        if "\\n" in current_arg:
+            current_arg = current_arg[:-2] + "\n"
         if current_data != 0:
             current_data += len(current_arg) + 2
         else:
@@ -75,7 +77,6 @@ def translate_code_part(token: str) -> list[str | int | Opcode]:
             arg = 1
         elif arg == "INPUT":
             arg = 0
-        print(arg)
 
         tokens += [[opcode, arg]]
 
