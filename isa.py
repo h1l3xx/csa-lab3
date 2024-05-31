@@ -1,4 +1,3 @@
-import struct
 from enum import Enum
 import json
 from typing import Any
@@ -13,22 +12,20 @@ class Opcode(Enum):
     HLT = "HLT"
     NOP = "NOP"
     JMP = "JMP"
-    JZ = "JZ"
     JNE = "JNE"
     JEQ = "JEQ"
-    CALL = "CALL"
     SAVE = "SAVE"
-    # RET = 0b10000101
 
     PUSH = "PUSH"
     PUSH_VAL = "PUSH_VAL"
     POP = "POP"
     LOAD = "LOAD"
-    DROP = "DROP"
     SWAP = "SWAP"
     DUP = "DUP"
     COMPARE = "COMPARE"
+
     PRINT_VAL = "PRINT_VAL"
+    PRINT = "PRINT"
 
     INC = "INC"
     DEC = "DEC"
@@ -45,12 +42,8 @@ class Opcode(Enum):
     STRING = "STRING"
     BUFFER = "BUFFER"
 
-    RETURN = "RETURN"
-
     DATA = "DATA"
     DATA_SIZE = "DATA_SIZE"
-
-    PRINT = "PRINT"
 
 
 opcode_values = [e.value for e in Opcode]
@@ -69,7 +62,7 @@ def read_code(source: str) -> list[int]:
         code = json.loads(file.read())
 
     for instr in code:
-        # Конвертация строки в Opcode
+        # Line to Opcode
         instr["opcode"] = Opcode(instr["opcode"])
 
     return code

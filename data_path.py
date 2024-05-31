@@ -23,6 +23,23 @@ class DataPath:
         self.data_size = len(memory)
         self.alu = ALU()
 
+    def load_in_memory(self, index: int, value: int):
+        self.data[index] = value
 
-    def set_tos(self):
-        self.tos = self.data_stack.peek()
+    def push_in_stack(self, value: int):
+        self.data_stack.push(value)
+
+    def pop_from_stack(self):
+        return self.data_stack.pop()
+
+    def peek_from_stack(self):
+        return self.data_stack.peek()
+
+    def get_data_size(self):
+        return self.data_size
+
+    def add_in_output_buffer(self, value: str):
+        self.output_buffer.append(value)
+
+    def get_from_memory(self, index: int):
+        return self.data[index]

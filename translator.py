@@ -1,5 +1,4 @@
 import argparse
-import types
 
 from isa import *
 from isa import Opcode
@@ -10,10 +9,11 @@ def get_meaningful_token(line: str) -> str:
 
 
 def translate_data_part(token: str, data_length: int) -> tuple[int, Any, list[int | Any] | list[int | str] | list[int]]:
+
     current_data = data_length
-    print(token)
     variable, str_opcode, arg = token.split(" ", 2)
     opcode = Opcode[str_opcode]
+
     assert opcode in [
         Opcode.NUMBER,
         Opcode.STRING,
@@ -60,8 +60,6 @@ def translate_code_part(token: str) -> list[str | int | Opcode]:
             Opcode.PUSH,
             Opcode.PUSH_VAL,
             Opcode.JMP,
-            Opcode.JZ,
-            Opcode.CALL,
             Opcode.JNE,
             Opcode.LOAD,
             Opcode.JEQ,
@@ -133,13 +131,15 @@ def translate_stage_1(
 def translate_stage_2(
         variables: dict[str, int], tokens: list[str | int | Opcode]
 ) -> list[dict[str, int | str | Opcode | Any] | dict[str, int | Any]]:
-    labels_indexes = []
+
     code = []
     data = []
     labels = {}
 
     data_length = int(tokens[0])
+
     data.append({"index": 0, "opcode": Opcode.DATA_SIZE.value, "arg": data_length})
+
     for i in range(1, data_length + 1):
         token = tokens[i]
         if isinstance(token, int):
@@ -147,6 +147,7 @@ def translate_stage_2(
             data.append({"index": i, "opcode": Opcode.DATA.value, "arg": token})
         elif " MEM" in token:
             data.append({"index": i, "opcode": Opcode.DATA_SIZE.value, "arg": token.split(" ")[0]})
+
     code_size = len(tokens) - data_length
 
     for i in range(data_length + code_size - 1, data_length, -1):
@@ -156,8 +157,10 @@ def translate_stage_2(
 
     for i in range(data_length + 1, data_length + code_size):
         token = tokens[i]
+
         if isinstance(token, Opcode):
             code.append({"index": i, "opcode": token.value})
+
         else:
             if isinstance(token, str):
                 continue
@@ -170,10 +173,14 @@ def translate_stage_2(
                     code.append({"index": i, "opcode": opcode, "arg": variables[arg] + 1})
                 else:
                     code.append({"index": i, "opcode": opcode, "arg": arg})
+
     for i in range(len(labels)):
+
         label, index = labels.popitem()
+
         if label == "interrupt":
             data.insert(0, {"index": -1, "opcode": Opcode.DATA.value, "arg": index})
+
         code.insert(index - data_length - 1, {"index": index, "opcode": Opcode.NOP.value})
 
     code = data + code
@@ -192,15 +199,15 @@ def main(source: str, target: str):
         text = f.read()
 
     code = translate(text)
-    print(code)
     write_code(target, code)
+
     print("LoC:", len(text.split("\n")), "Code bytes:", len(code) * BITS // 8)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Трансляция кода")
-    parser.add_argument("source_file", help="Имя файла с кодом")
-    parser.add_argument("target_file", help="Имя выходного файла")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("source_file")
+    parser.add_argument("target_file")
 
     args = parser.parse_args()
 

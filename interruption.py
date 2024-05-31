@@ -3,9 +3,7 @@ from enum import Enum
 
 class InterruptionType(Enum):
     INPUT = "INPUT"
-    OUTPUT = "OUTPUT"
     HLT = "HLT"
-    ERROR = "ERROR"
 
 
 class Interruption:

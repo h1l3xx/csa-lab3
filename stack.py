@@ -3,7 +3,7 @@ class Stack:
 
     def __init__(self, size):
         self.items: list = []
-        self.max_size = 10000000000000000000000
+        self.max_size = size
 
     def is_empty(self) -> bool:
         return self.items == []
