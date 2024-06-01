@@ -3,13 +3,14 @@ import argparse
 from control_unit import ControlUnit
 from isa import read_code, decode_data_line, read_data
 from data_path import DataPath
+from logger import Logger, LogLevel, Place
 
 
-def simulate(input_file: str, stack_size: int, schedule: str, limit: int):
+def simulate(input_file: str, stack_size: int, schedule: str | None, limit: int, log_file: str):
     read = read_code(input_file)
-
+    logger = Logger()
+    logger.set_log_filepath(log_file)
     interruption_vector_addr = None
-    read_schedule = read_data(schedule)
 
     if read[0]["index"] == -1:
 
@@ -34,11 +35,14 @@ def simulate(input_file: str, stack_size: int, schedule: str, limit: int):
             data_memory.append(decode)
 
     data_path = DataPath(data_memory, int(stack_size))
-    if len(read_schedule) > 1:
+
+    if schedule is not None:
+        read_schedule = read_data(schedule)
+        logger.log(LogLevel.INFO, Place.INPUT, f"Schedule : {read_schedule}")
         control_unit = ControlUnit(data_path, code, read_schedule, interruption_vector_addr, int(limit))
     else:
         control_unit = ControlUnit(data_path, code, None, interruption_vector_addr, int(limit))
-
+    control_unit.set_logger(logger)
     control_unit.start()
     print("".join(control_unit.data_path.output_buffer))
 
@@ -49,6 +53,7 @@ if __name__ == '__main__':
     parser.add_argument("input_file")
     parser.add_argument("stack_size")
     parser.add_argument("ticks_limit")
+    parser.add_argument("log_file")
     args = parser.parse_args()
 
     simulate(args.code_file, args.stack_size, args.input_file, args.ticks_limit)

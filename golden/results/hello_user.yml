@@ -1,0 +1,1207 @@
+in_source: |-
+  .data:
+    question STRING "What is your name?\n"
+    start STRING "Hello, "
+    finish STRING "!"
+  .code:
+    PUSH_VAL question
+    PUSH 1
+    ADD
+    PUSH question
+
+    question_loop:
+      JMP question_print
+    question_print:
+      PRINT_BY_INDEX
+      INC
+      COMPARE
+      JNE question_loop
+      POP
+      PUSH 0
+      PUSH_VAL finish
+      DUP
+      JMP await_name
+
+    await_name:
+      JMP await_name
+
+    pre_start:
+      PUSH_VAL start
+      PUSH start
+      JMP start_loop
+
+    start_loop:
+      JMP print_start
+
+    print_start:
+
+      PRINT_BY_INDEX
+      INC
+      COMPARE
+      JNE start_loop
+      
+      POP
+      POP
+      
+      JMP pre_print_name
+
+    interrupt:
+
+      INC
+      
+      LOAD INPUT
+      
+      DUP
+      
+      PUSH 35
+      COMPARE
+      
+      POP
+      POP
+      JEQ pre_start
+      
+      SAVE
+      
+      SWAP
+      INC
+      SWAP
+      
+      JMP await_name
+
+    pre_print_name:
+      POP
+      POP
+      POP
+      PUSH finish
+      INC
+      SWAP
+      JMP print_name
+
+    print_name:
+      PUSH 31
+      COMPARE
+      JEQ go_finish
+      
+      POP
+      SWAP
+      PRINT_BY_INDEX
+      
+      INC
+      
+      SWAP
+      DEC
+      
+      JMP print_name
+
+
+    go_finish:
+      PUSH_VAL finish
+      PUSH 2
+      ADD
+      JMP finish_loop
+
+    finish_loop:
+      JMP print_finish
+
+    print_finish:
+      PRINT OUTPUT
+      JMP end
+
+    end:
+      HLT
+in_stdin: |-
+  444 : S
+  509 : a
+  789 : s
+  879 : h
+  934 : a
+  994 :
+out_code: |-
+  [{"index": -1, "opcode": "DATA", "arg": 63},
+   {"index": 0, "opcode": "DATA_SIZE", "arg": 30},
+   {"index": 1, "opcode": "DATA_SIZE", "arg": "19"},
+   {"index": 2, "opcode": "DATA", "arg": 87},
+   {"index": 3, "opcode": "DATA", "arg": 104},
+   {"index": 4, "opcode": "DATA", "arg": 97},
+   {"index": 5, "opcode": "DATA", "arg": 116},
+   {"index": 6, "opcode": "DATA", "arg": 32},
+   {"index": 7, "opcode": "DATA", "arg": 105},
+   {"index": 8, "opcode": "DATA", "arg": 115},
+   {"index": 9, "opcode": "DATA", "arg": 32},
+   {"index": 10, "opcode": "DATA", "arg": 121},
+   {"index": 11, "opcode": "DATA", "arg": 111},
+   {"index": 12, "opcode": "DATA", "arg": 117},
+   {"index": 13, "opcode": "DATA", "arg": 114},
+   {"index": 14, "opcode": "DATA", "arg": 32},
+   {"index": 15, "opcode": "DATA", "arg": 110},
+   {"index": 16, "opcode": "DATA", "arg": 97},
+   {"index": 17, "opcode": "DATA", "arg": 109},
+   {"index": 18, "opcode": "DATA", "arg": 101},
+   {"index": 19, "opcode": "DATA", "arg": 63},
+   {"index": 20, "opcode": "DATA", "arg": 10},
+   {"index": 21, "opcode": "DATA_SIZE", "arg": "28"},
+   {"index": 22, "opcode": "DATA", "arg": 72},
+   {"index": 23, "opcode": "DATA", "arg": 101},
+   {"index": 24, "opcode": "DATA", "arg": 108},
+   {"index": 25, "opcode": "DATA", "arg": 108},
+   {"index": 26, "opcode": "DATA", "arg": 111},
+   {"index": 27, "opcode": "DATA", "arg": 44},
+   {"index": 28, "opcode": "DATA", "arg": 32},
+   {"index": 29, "opcode": "DATA_SIZE", "arg": "31"},
+   {"index": 30, "opcode": "DATA", "arg": 33},
+   {"index": 31, "opcode": "PUSH_VAL", "arg": 1},
+   {"index": 32, "opcode": "PUSH", "arg": 1},
+   {"index": 33, "opcode": "ADD"},
+   {"index": 34, "opcode": "PUSH", "arg": 1},
+   {"index": 35, "opcode": "NOP"},
+   {"index": 36, "opcode": "JMP", "arg": 37},
+   {"index": 37, "opcode": "NOP"},
+   {"index": 38, "opcode": "PRINT_BY_INDEX"},
+   {"index": 39, "opcode": "INC"},
+   {"index": 40, "opcode": "COMPARE"},
+   {"index": 41, "opcode": "JNE", "arg": 35},
+   {"index": 42, "opcode": "POP"},
+   {"index": 43, "opcode": "PUSH", "arg": 0},
+   {"index": 44, "opcode": "PUSH_VAL", "arg": 29},
+   {"index": 45, "opcode": "DUP"},
+   {"index": 46, "opcode": "JMP", "arg": 47},
+   {"index": 47, "opcode": "NOP"},
+   {"index": 48, "opcode": "JMP", "arg": 47},
+   {"index": 49, "opcode": "NOP"},
+   {"index": 50, "opcode": "PUSH_VAL", "arg": 21},
+   {"index": 51, "opcode": "PUSH", "arg": 21},
+   {"index": 52, "opcode": "JMP", "arg": 53},
+   {"index": 53, "opcode": "NOP"},
+   {"index": 54, "opcode": "JMP", "arg": 55},
+   {"index": 55, "opcode": "NOP"},
+   {"index": 56, "opcode": "PRINT_BY_INDEX"},
+   {"index": 57, "opcode": "INC"},
+   {"index": 58, "opcode": "COMPARE"},
+   {"index": 59, "opcode": "JNE", "arg": 53},
+   {"index": 60, "opcode": "POP"},
+   {"index": 61, "opcode": "POP"},
+   {"index": 62, "opcode": "JMP", "arg": 77},
+   {"index": 63, "opcode": "NOP"},
+   {"index": 64, "opcode": "INC"},
+   {"index": 65, "opcode": "LOAD", "arg": 0},
+   {"index": 66, "opcode": "DUP"},
+   {"index": 67, "opcode": "PUSH", "arg": 35},
+   {"index": 68, "opcode": "COMPARE"},
+   {"index": 69, "opcode": "POP"},
+   {"index": 70, "opcode": "POP"},
+   {"index": 71, "opcode": "JEQ", "arg": 49},
+   {"index": 72, "opcode": "SAVE"},
+   {"index": 73, "opcode": "SWAP"},
+   {"index": 74, "opcode": "INC"},
+   {"index": 75, "opcode": "SWAP"},
+   {"index": 76, "opcode": "JMP", "arg": 47},
+   {"index": 77, "opcode": "NOP"},
+   {"index": 78, "opcode": "POP"},
+   {"index": 79, "opcode": "POP"},
+   {"index": 80, "opcode": "POP"},
+   {"index": 81, "opcode": "PUSH", "arg": 29},
+   {"index": 82, "opcode": "INC"},
+   {"index": 83, "opcode": "SWAP"},
+   {"index": 84, "opcode": "JMP", "arg": 85},
+   {"index": 85, "opcode": "NOP"},
+   {"index": 86, "opcode": "PUSH", "arg": 31},
+   {"index": 87, "opcode": "COMPARE"},
+   {"index": 88, "opcode": "JEQ", "arg": 96},
+   {"index": 89, "opcode": "POP"},
+   {"index": 90, "opcode": "SWAP"},
+   {"index": 91, "opcode": "PRINT_BY_INDEX"},
+   {"index": 92, "opcode": "INC"},
+   {"index": 93, "opcode": "SWAP"},
+   {"index": 94, "opcode": "DEC"},
+   {"index": 95, "opcode": "JMP", "arg": 85},
+   {"index": 96, "opcode": "NOP"},
+   {"index": 97, "opcode": "PUSH_VAL", "arg": 29},
+   {"index": 98, "opcode": "PUSH", "arg": 2},
+   {"index": 99, "opcode": "ADD"},
+   {"index": 100, "opcode": "JMP", "arg": 101},
+   {"index": 101, "opcode": "NOP"},
+   {"index": 102, "opcode": "JMP", "arg": 103},
+   {"index": 103, "opcode": "NOP"},
+   {"index": 104, "opcode": "PRINT", "arg": 1},
+   {"index": 105, "opcode": "JMP", "arg": 106},
+   {"index": 106, "opcode": "NOP"},
+   {"index": 107, "opcode": "HLT"}]
+
+out_stdout: |
+  LoC: 110 Code bytes: 436
+  ============================================================
+  What is your name?
+  Hello, Sasha!
+
+out_log: |-
+  INFO      ::     INPUT       Schedule : ['444 : S', '509 : a', '789 : s', '879 : h', '934 : a', '994 :']
+  INFO      ::     SYSTEM      Starting execution
+  DEBUG     ::     SYSTEM      Instructions memory: [{'index': 31, 'opcode': <Opcode.PUSH_VAL: 'PUSH_VAL'>, 'arg': 1}, {'index': 32, 'opcode': <Opcode.PUSH: 'PUSH'>, 'arg': 1}, {'index': 33, 'opcode': <Opcode.ADD: 'ADD'>}, {'index': 34, 'opcode': <Opcode.PUSH: 'PUSH'>, 'arg': 1}, {'index': 35, 'opcode': <Opcode.NOP: 'NOP'>}, {'index': 36, 'opcode': <Opcode.JMP: 'JMP'>, 'arg': 37}, {'index': 37, 'opcode': <Opcode.NOP: 'NOP'>}, {'index': 38, 'opcode': <Opcode.PRINT_BY_INDEX: 'PRINT_BY_INDEX'>}, {'index': 39, 'opcode': <Opcode.INC: 'INC'>}, {'index': 40, 'opcode': <Opcode.COMPARE: 'COMPARE'>}, {'index': 41, 'opcode': <Opcode.JNE: 'JNE'>, 'arg': 35}, {'index': 42, 'opcode': <Opcode.POP: 'POP'>}, {'index': 43, 'opcode': <Opcode.PUSH: 'PUSH'>, 'arg': 0}, {'index': 44, 'opcode': <Opcode.PUSH_VAL: 'PUSH_VAL'>, 'arg': 29}, {'index': 45, 'opcode': <Opcode.DUP: 'DUP'>}, {'index': 46, 'opcode': <Opcode.JMP: 'JMP'>, 'arg': 47}, {'index': 47, 'opcode': <Opcode.NOP: 'NOP'>}, {'index': 48, 'opcode': <Opcode.JMP: 'JMP'>, 'arg': 47}, {'index': 49, 'opcode': <Opcode.NOP: 'NOP'>}, {'index': 50, 'opcode': <Opcode.PUSH_VAL: 'PUSH_VAL'>, 'arg': 21}, {'index': 51, 'opcode': <Opcode.PUSH: 'PUSH'>, 'arg': 21}, {'index': 52, 'opcode': <Opcode.JMP: 'JMP'>, 'arg': 53}, {'index': 53, 'opcode': <Opcode.NOP: 'NOP'>}, {'index': 54, 'opcode': <Opcode.JMP: 'JMP'>, 'arg': 55}, {'index': 55, 'opcode': <Opcode.NOP: 'NOP'>}, {'index': 56, 'opcode': <Opcode.PRINT_BY_INDEX: 'PRINT_BY_INDEX'>}, {'index': 57, 'opcode': <Opcode.INC: 'INC'>}, {'index': 58, 'opcode': <Opcode.COMPARE: 'COMPARE'>}, {'index': 59, 'opcode': <Opcode.JNE: 'JNE'>, 'arg': 53}, {'index': 60, 'opcode': <Opcode.POP: 'POP'>}, {'index': 61, 'opcode': <Opcode.POP: 'POP'>}, {'index': 62, 'opcode': <Opcode.JMP: 'JMP'>, 'arg': 77}, {'index': 63, 'opcode': <Opcode.NOP: 'NOP'>}, {'index': 64, 'opcode': <Opcode.INC: 'INC'>}, {'index': 65, 'opcode': <Opcode.LOAD: 'LOAD'>, 'arg': 0}, {'index': 66, 'opcode': <Opcode.DUP: 'DUP'>}, {'index': 67, 'opcode': <Opcode.PUSH: 'PUSH'>, 'arg': 35}, {'index': 68, 'opcode': <Opcode.COMPARE: 'COMPARE'>}, {'index': 69, 'opcode': <Opcode.POP: 'POP'>}, {'index': 70, 'opcode': <Opcode.POP: 'POP'>}, {'index': 71, 'opcode': <Opcode.JEQ: 'JEQ'>, 'arg': 49}, {'index': 72, 'opcode': <Opcode.SAVE: 'SAVE'>}, {'index': 73, 'opcode': <Opcode.SWAP: 'SWAP'>}, {'index': 74, 'opcode': <Opcode.INC: 'INC'>}, {'index': 75, 'opcode': <Opcode.SWAP: 'SWAP'>}, {'index': 76, 'opcode': <Opcode.JMP: 'JMP'>, 'arg': 47}, {'index': 77, 'opcode': <Opcode.NOP: 'NOP'>}, {'index': 78, 'opcode': <Opcode.POP: 'POP'>}, {'index': 79, 'opcode': <Opcode.POP: 'POP'>}, {'index': 80, 'opcode': <Opcode.POP: 'POP'>}, {'index': 81, 'opcode': <Opcode.PUSH: 'PUSH'>, 'arg': 29}, {'index': 82, 'opcode': <Opcode.INC: 'INC'>}, {'index': 83, 'opcode': <Opcode.SWAP: 'SWAP'>}, {'index': 84, 'opcode': <Opcode.JMP: 'JMP'>, 'arg': 85}, {'index': 85, 'opcode': <Opcode.NOP: 'NOP'>}, {'index': 86, 'opcode': <Opcode.PUSH: 'PUSH'>, 'arg': 31}, {'index': 87, 'opcode': <Opcode.COMPARE: 'COMPARE'>}, {'index': 88, 'opcode': <Opcode.JEQ: 'JEQ'>, 'arg': 96}, {'index': 89, 'opcode': <Opcode.POP: 'POP'>}, {'index': 90, 'opcode': <Opcode.SWAP: 'SWAP'>}, {'index': 91, 'opcode': <Opcode.PRINT_BY_INDEX: 'PRINT_BY_INDEX'>}, {'index': 92, 'opcode': <Opcode.INC: 'INC'>}, {'index': 93, 'opcode': <Opcode.SWAP: 'SWAP'>}, {'index': 94, 'opcode': <Opcode.DEC: 'DEC'>}, {'index': 95, 'opcode': <Opcode.JMP: 'JMP'>, 'arg': 85}, {'index': 96, 'opcode': <Opcode.NOP: 'NOP'>}, {'index': 97, 'opcode': <Opcode.PUSH_VAL: 'PUSH_VAL'>, 'arg': 29}, {'index': 98, 'opcode': <Opcode.PUSH: 'PUSH'>, 'arg': 2}, {'index': 99, 'opcode': <Opcode.ADD: 'ADD'>}, {'index': 100, 'opcode': <Opcode.JMP: 'JMP'>, 'arg': 101}, {'index': 101, 'opcode': <Opcode.NOP: 'NOP'>}, {'index': 102, 'opcode': <Opcode.JMP: 'JMP'>, 'arg': 103}, {'index': 103, 'opcode': <Opcode.NOP: 'NOP'>}, {'index': 104, 'opcode': <Opcode.PRINT: 'PRINT'>, 'arg': 1}, {'index': 105, 'opcode': <Opcode.JMP: 'JMP'>, 'arg': 106}, {'index': 106, 'opcode': <Opcode.NOP: 'NOP'>}, {'index': 107, 'opcode': <Opcode.HLT: 'HLT'>}]
+  DEBUG     ::     SYSTEM      Data memory: [0, 1, 19, 87, 104, 97, 116, 32, 105, 115, 32, 121, 111, 117, 114, 32, 110, 97, 109, 101, 63, 10, 28, 72, 101, 108, 108, 111, 44, 32, 31, 33]
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing PUSH_VAL 1
+  DEBUG     ::     SYSTEM      Data stack: [19]
+  INFO      ::     INSTR       Processing PUSH 1
+  DEBUG     ::     SYSTEM      Data stack: [19, 1]
+  INFO      ::     INSTR       Processing ADD
+  DEBUG     ::     ALU         Adding 19 and 1
+  DEBUG     ::     SYSTEM      Data stack: [20]
+  INFO      ::     INSTR       Processing PUSH 1
+  DEBUG     ::     SYSTEM      Data stack: [20, 1]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 1]
+  INFO      ::     INSTR       Processing JMP 37
+  DEBUG     ::     SYSTEM      Data stack: [20, 1]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 1]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 1]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 1
+  DEBUG     ::     SYSTEM      Data stack: [20, 2]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 2]
+  INFO      ::     INSTR       Processing JNE 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 2]
+  INFO      ::     INSTR       Processing JMP 37
+  DEBUG     ::     SYSTEM      Data stack: [20, 2]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 2]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 2]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 2
+  DEBUG     ::     SYSTEM      Data stack: [20, 3]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 3]
+  INFO      ::     INSTR       Processing JNE 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 3]
+  INFO      ::     INSTR       Processing JMP 37
+  DEBUG     ::     SYSTEM      Data stack: [20, 3]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 3]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 3]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 3
+  DEBUG     ::     SYSTEM      Data stack: [20, 4]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 4]
+  INFO      ::     INSTR       Processing JNE 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 4]
+  INFO      ::     INSTR       Processing JMP 37
+  DEBUG     ::     SYSTEM      Data stack: [20, 4]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 4]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 4]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 4
+  DEBUG     ::     SYSTEM      Data stack: [20, 5]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 5]
+  INFO      ::     INSTR       Processing JNE 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 5]
+  INFO      ::     INSTR       Processing JMP 37
+  DEBUG     ::     SYSTEM      Data stack: [20, 5]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 5]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 5]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 5
+  DEBUG     ::     SYSTEM      Data stack: [20, 6]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 6]
+  INFO      ::     INSTR       Processing JNE 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 6]
+  INFO      ::     INSTR       Processing JMP 37
+  DEBUG     ::     SYSTEM      Data stack: [20, 6]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 6]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 6]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 6
+  DEBUG     ::     SYSTEM      Data stack: [20, 7]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 7]
+  INFO      ::     INSTR       Processing JNE 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 7]
+  INFO      ::     INSTR       Processing JMP 37
+  DEBUG     ::     SYSTEM      Data stack: [20, 7]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 7]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 7]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 7
+  DEBUG     ::     SYSTEM      Data stack: [20, 8]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 8]
+  INFO      ::     INSTR       Processing JNE 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 8]
+  INFO      ::     INSTR       Processing JMP 37
+  DEBUG     ::     SYSTEM      Data stack: [20, 8]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 8]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 8]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 8
+  DEBUG     ::     SYSTEM      Data stack: [20, 9]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 9]
+  INFO      ::     INSTR       Processing JNE 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 9]
+  INFO      ::     INSTR       Processing JMP 37
+  DEBUG     ::     SYSTEM      Data stack: [20, 9]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 9]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 9]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 9
+  DEBUG     ::     SYSTEM      Data stack: [20, 10]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 10]
+  INFO      ::     INSTR       Processing JNE 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 10]
+  INFO      ::     INSTR       Processing JMP 37
+  DEBUG     ::     SYSTEM      Data stack: [20, 10]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 10]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 10]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 10
+  DEBUG     ::     SYSTEM      Data stack: [20, 11]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 11]
+  INFO      ::     INSTR       Processing JNE 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 11]
+  INFO      ::     INSTR       Processing JMP 37
+  DEBUG     ::     SYSTEM      Data stack: [20, 11]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 11]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 11]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 11
+  DEBUG     ::     SYSTEM      Data stack: [20, 12]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 12]
+  INFO      ::     INSTR       Processing JNE 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 12]
+  INFO      ::     INSTR       Processing JMP 37
+  DEBUG     ::     SYSTEM      Data stack: [20, 12]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 12]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 12]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 12
+  DEBUG     ::     SYSTEM      Data stack: [20, 13]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 13]
+  INFO      ::     INSTR       Processing JNE 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 13]
+  INFO      ::     INSTR       Processing JMP 37
+  DEBUG     ::     SYSTEM      Data stack: [20, 13]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 13]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 13]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 13
+  DEBUG     ::     SYSTEM      Data stack: [20, 14]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 14]
+  INFO      ::     INSTR       Processing JNE 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 14]
+  INFO      ::     INSTR       Processing JMP 37
+  DEBUG     ::     SYSTEM      Data stack: [20, 14]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 14]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 14]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 14
+  DEBUG     ::     SYSTEM      Data stack: [20, 15]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 15]
+  INFO      ::     INSTR       Processing JNE 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 15]
+  INFO      ::     INSTR       Processing JMP 37
+  DEBUG     ::     SYSTEM      Data stack: [20, 15]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 15]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 15]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 15
+  DEBUG     ::     SYSTEM      Data stack: [20, 16]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 16]
+  INFO      ::     INSTR       Processing JNE 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 16]
+  INFO      ::     INSTR       Processing JMP 37
+  DEBUG     ::     SYSTEM      Data stack: [20, 16]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 16]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 16]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 16
+  DEBUG     ::     SYSTEM      Data stack: [20, 17]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 17]
+  INFO      ::     INSTR       Processing JNE 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 17]
+  INFO      ::     INSTR       Processing JMP 37
+  DEBUG     ::     SYSTEM      Data stack: [20, 17]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 17]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 17]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 17
+  DEBUG     ::     SYSTEM      Data stack: [20, 18]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 18]
+  INFO      ::     INSTR       Processing JNE 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 18]
+  INFO      ::     INSTR       Processing JMP 37
+  DEBUG     ::     SYSTEM      Data stack: [20, 18]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 18]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 18]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 18
+  DEBUG     ::     SYSTEM      Data stack: [20, 19]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 19]
+  INFO      ::     INSTR       Processing JNE 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 19]
+  INFO      ::     INSTR       Processing JMP 37
+  DEBUG     ::     SYSTEM      Data stack: [20, 19]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 19]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 19]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 19
+  DEBUG     ::     SYSTEM      Data stack: [20, 20]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 20]
+  INFO      ::     INSTR       Processing JNE 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 20]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20]
+  INFO      ::     INSTR       Processing PUSH 0
+  DEBUG     ::     SYSTEM      Data stack: [20, 0]
+  INFO      ::     INSTR       Processing PUSH_VAL 29
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 31]
+  INFO      ::     INSTR       Processing DUP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 31, 31]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: INPUT
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 31, 31]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 31, 31]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 31
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 31, 32]
+  INFO      ::     INSTR       Processing LOAD 0
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 31, 32, 83]
+  INFO      ::     INSTR       Processing DUP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 31, 32, 83, 83]
+  INFO      ::     INSTR       Processing PUSH 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 31, 32, 83, 83, 35]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 31, 32, 83, 83, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 31, 32, 83, 83]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 31, 32, 83]
+  INFO      ::     INSTR       Processing JEQ 49
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 31, 32, 83]
+  INFO      ::     INSTR       Processing SAVE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 31, 32]
+  INFO      ::     INSTR       Processing SWAP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 31]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 31
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 32]
+  INFO      ::     INSTR       Processing SWAP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 32]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 32]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 32]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 32]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 32]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 32]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 32]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: INPUT
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 32]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 32]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 32
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 33]
+  INFO      ::     INSTR       Processing LOAD 0
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 33, 97]
+  INFO      ::     INSTR       Processing DUP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 33, 97, 97]
+  INFO      ::     INSTR       Processing PUSH 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 33, 97, 97, 35]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 33, 97, 97, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 33, 97, 97]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 33, 97]
+  INFO      ::     INSTR       Processing JEQ 49
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 33, 97]
+  INFO      ::     INSTR       Processing SAVE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 33]
+  INFO      ::     INSTR       Processing SWAP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 32]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 32
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing SWAP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: INPUT
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 33
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 34]
+  INFO      ::     INSTR       Processing LOAD 0
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 34, 115]
+  INFO      ::     INSTR       Processing DUP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 34, 115, 115]
+  INFO      ::     INSTR       Processing PUSH 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 34, 115, 115, 35]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 34, 115, 115, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 34, 115, 115]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 34, 115]
+  INFO      ::     INSTR       Processing JEQ 49
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 34, 115]
+  INFO      ::     INSTR       Processing SAVE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 34]
+  INFO      ::     INSTR       Processing SWAP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 33]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 33
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 34]
+  INFO      ::     INSTR       Processing SWAP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 34]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 34]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 34]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 34]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 34]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 34]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 34]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 34]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 34]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 34]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 34]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 34]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 34]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 34]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 34]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 34]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 34]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: INPUT
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 34]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 34]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 34
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 35]
+  INFO      ::     INSTR       Processing LOAD 0
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 35, 104]
+  INFO      ::     INSTR       Processing DUP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 35, 104, 104]
+  INFO      ::     INSTR       Processing PUSH 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 35, 104, 104, 35]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 35, 104, 104, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 35, 104, 104]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 35, 104]
+  INFO      ::     INSTR       Processing JEQ 49
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 35, 104]
+  INFO      ::     INSTR       Processing SAVE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 35]
+  INFO      ::     INSTR       Processing SWAP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 34]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 34
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 35]
+  INFO      ::     INSTR       Processing SWAP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 35]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 35]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 35]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: INPUT
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 35]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 35]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 36]
+  INFO      ::     INSTR       Processing LOAD 0
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 36, 97]
+  INFO      ::     INSTR       Processing DUP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 36, 97, 97]
+  INFO      ::     INSTR       Processing PUSH 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 36, 97, 97, 35]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 36, 97, 97, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 36, 97, 97]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 36, 97]
+  INFO      ::     INSTR       Processing JEQ 49
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 36, 97]
+  INFO      ::     INSTR       Processing SAVE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 36]
+  INFO      ::     INSTR       Processing SWAP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 35]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36]
+  INFO      ::     INSTR       Processing SWAP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36]
+  INFO      ::     INSTR       Processing JMP 47
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: INPUT
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35]
+  INFO      ::     INSTR       Processing LOAD 0
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35]
+  INFO      ::     INSTR       Processing DUP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 35]
+  INFO      ::     INSTR       Processing PUSH 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 35, 35]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 35, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35]
+  INFO      ::     INSTR       Processing JEQ 49
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35]
+  INFO      ::     INSTR       Processing PUSH_VAL 21
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28]
+  INFO      ::     INSTR       Processing PUSH 21
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 21]
+  INFO      ::     INSTR       Processing JMP 53
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 21]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 21]
+  INFO      ::     INSTR       Processing JMP 55
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 21]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 21]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 21]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 21
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 22]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 22]
+  INFO      ::     INSTR       Processing JNE 53
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 22]
+  INFO      ::     INSTR       Processing JMP 55
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 22]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 22]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 22]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 22
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 23]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 23]
+  INFO      ::     INSTR       Processing JNE 53
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 23]
+  INFO      ::     INSTR       Processing JMP 55
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 23]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 23]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 23]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 23
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 24]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 24]
+  INFO      ::     INSTR       Processing JNE 53
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 24]
+  INFO      ::     INSTR       Processing JMP 55
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 24]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 24]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 24]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 24
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 25]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 25]
+  INFO      ::     INSTR       Processing JNE 53
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 25]
+  INFO      ::     INSTR       Processing JMP 55
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 25]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 25]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 25]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 25
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 26]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 26]
+  INFO      ::     INSTR       Processing JNE 53
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 26]
+  INFO      ::     INSTR       Processing JMP 55
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 26]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 26]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 26]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 26
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 27]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 27]
+  INFO      ::     INSTR       Processing JNE 53
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 27]
+  INFO      ::     INSTR       Processing JMP 55
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 27]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 27]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 27]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 27
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 28]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 28]
+  INFO      ::     INSTR       Processing JNE 53
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28, 28]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35, 28]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35]
+  INFO      ::     INSTR       Processing JMP 77
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 36]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36]
+  INFO      ::     INSTR       Processing PUSH 29
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 29]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 29
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 30]
+  INFO      ::     INSTR       Processing SWAP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 30, 36]
+  INFO      ::     INSTR       Processing JMP 85
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 30, 36]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 30, 36]
+  INFO      ::     INSTR       Processing PUSH 31
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 30, 36, 31]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 30, 36, 31]
+  INFO      ::     INSTR       Processing JEQ 96
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 30, 36, 31]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 30, 36]
+  INFO      ::     INSTR       Processing SWAP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 30]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 30]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 30
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 36, 31]
+  INFO      ::     INSTR       Processing SWAP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 31, 36]
+  INFO      ::     INSTR       Processing DEC
+  DEBUG     ::     ALU         Decrementing 36
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 31, 35]
+  INFO      ::     INSTR       Processing JMP 85
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 31, 35]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 31, 35]
+  INFO      ::     INSTR       Processing PUSH 31
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 31, 35, 31]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 31, 35, 31]
+  INFO      ::     INSTR       Processing JEQ 96
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 31, 35, 31]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 31, 35]
+  INFO      ::     INSTR       Processing SWAP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 31]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 31]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 31
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 32]
+  INFO      ::     INSTR       Processing SWAP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 35]
+  INFO      ::     INSTR       Processing DEC
+  DEBUG     ::     ALU         Decrementing 35
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 34]
+  INFO      ::     INSTR       Processing JMP 85
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 34]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 34]
+  INFO      ::     INSTR       Processing PUSH 31
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 34, 31]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 34, 31]
+  INFO      ::     INSTR       Processing JEQ 96
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 34, 31]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 34]
+  INFO      ::     INSTR       Processing SWAP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 32]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 32]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 32
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 33]
+  INFO      ::     INSTR       Processing SWAP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 34]
+  INFO      ::     INSTR       Processing DEC
+  DEBUG     ::     ALU         Decrementing 34
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing JMP 85
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing PUSH 31
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33, 31]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33, 31]
+  INFO      ::     INSTR       Processing JEQ 96
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33, 31]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing SWAP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 33]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 33
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 33, 34]
+  INFO      ::     INSTR       Processing SWAP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 33]
+  INFO      ::     INSTR       Processing DEC
+  DEBUG     ::     ALU         Decrementing 33
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 32]
+  INFO      ::     INSTR       Processing JMP 85
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 32]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 32]
+  INFO      ::     INSTR       Processing PUSH 31
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 32, 31]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 32, 31]
+  INFO      ::     INSTR       Processing JEQ 96
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 32, 31]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 34, 32]
+  INFO      ::     INSTR       Processing SWAP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 34]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 34]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 34
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 32, 35]
+  INFO      ::     INSTR       Processing SWAP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 32]
+  INFO      ::     INSTR       Processing DEC
+  DEBUG     ::     ALU         Decrementing 32
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 31]
+  INFO      ::     INSTR       Processing JMP 85
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 31]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 31]
+  INFO      ::     INSTR       Processing PUSH 31
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 31, 31]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 31, 31]
+  INFO      ::     INSTR       Processing JEQ 96
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 31, 31]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 31, 31]
+  INFO      ::     INSTR       Processing PUSH_VAL 29
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 31, 31, 31]
+  INFO      ::     INSTR       Processing PUSH 2
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 31, 31, 31, 2]
+  INFO      ::     INSTR       Processing ADD
+  DEBUG     ::     ALU         Adding 31 and 2
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 31, 31, 33]
+  INFO      ::     INSTR       Processing JMP 101
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 31, 31, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 31, 31, 33]
+  INFO      ::     INSTR       Processing JMP 103
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 31, 31, 33]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 31, 31, 33]
+  INFO      ::     INSTR       Processing PRINT 1
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 31, 31]
+  INFO      ::     INSTR       Processing JMP 106
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 31, 31]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [20, 0, 35, 31, 31]
+  INFO      ::     INSTR       Processing HLT
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: HLT
+  INFO      ::     SYSTEM      Halting
+  INFO      ::     SYSTEM      Program finished: ticks = 1461, instructions executed = 450
+
+

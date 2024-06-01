@@ -1,0 +1,385 @@
+in_source: |-
+  .code:
+    loop:
+      JMP loop
+    interrupt:
+      LOAD INPUT
+      DUP
+      
+      PUSH 35
+      COMPARE
+      
+      POP
+      POP
+      JEQ end
+      
+      PRINT
+      
+      JMP loop
+    end:
+      HLT
+
+in_stdin: |-
+  2 : A
+  32 : p
+  62 : p
+  92 : r
+  132 : o
+  162 : x
+  192 : i
+  222 : m
+  252 : a
+  282 : t
+  312 : i
+  342 : o
+  372 : n
+  402 :
+
+out_code: |-
+  [{"index": -1, "opcode": "DATA", "arg": 3},
+   {"index": 0, "opcode": "DATA_SIZE", "arg": 0},
+   {"index": 1, "opcode": "NOP"},
+   {"index": 2, "opcode": "JMP", "arg": 1},
+   {"index": 3, "opcode": "NOP"},
+   {"index": 4, "opcode": "LOAD", "arg": 0},
+   {"index": 5, "opcode": "DUP"},
+   {"index": 6, "opcode": "PUSH", "arg": 35},
+   {"index": 7, "opcode": "COMPARE"},
+   {"index": 8, "opcode": "POP"},
+   {"index": 9, "opcode": "POP"},
+   {"index": 10, "opcode": "JEQ", "arg": 13},
+   {"index": 11, "opcode": "PRINT"},
+   {"index": 12, "opcode": "JMP", "arg": 1},
+   {"index": 13, "opcode": "NOP"},
+   {"index": 14, "opcode": "HLT"}]
+
+out_stdout: |
+  LoC: 19 Code bytes: 64
+  ============================================================
+  Approximation
+
+out_log: |-
+  INFO      ::     INPUT       Schedule : ['2 : A', '32 : p', '62 : p', '92 : r', '132 : o', '162 : x', '192 : i', '222 : m', '252 : a', '282 : t', '312 : i', '342 : o', '372 : n', '402 :']
+  INFO      ::     SYSTEM      Starting execution
+  DEBUG     ::     SYSTEM      Instructions memory: [{'index': 1, 'opcode': <Opcode.NOP: 'NOP'>}, {'index': 2, 'opcode': <Opcode.JMP: 'JMP'>, 'arg': 1}, {'index': 3, 'opcode': <Opcode.NOP: 'NOP'>}, {'index': 4, 'opcode': <Opcode.LOAD: 'LOAD'>, 'arg': 0}, {'index': 5, 'opcode': <Opcode.DUP: 'DUP'>}, {'index': 6, 'opcode': <Opcode.PUSH: 'PUSH'>, 'arg': 35}, {'index': 7, 'opcode': <Opcode.COMPARE: 'COMPARE'>}, {'index': 8, 'opcode': <Opcode.POP: 'POP'>}, {'index': 9, 'opcode': <Opcode.POP: 'POP'>}, {'index': 10, 'opcode': <Opcode.JEQ: 'JEQ'>, 'arg': 13}, {'index': 11, 'opcode': <Opcode.PRINT: 'PRINT'>}, {'index': 12, 'opcode': <Opcode.JMP: 'JMP'>, 'arg': 1}, {'index': 13, 'opcode': <Opcode.NOP: 'NOP'>}, {'index': 14, 'opcode': <Opcode.HLT: 'HLT'>}]
+  DEBUG     ::     SYSTEM      Data memory: [0, 1]
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: INPUT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing LOAD 0
+  DEBUG     ::     SYSTEM      Data stack: [65]
+  INFO      ::     INSTR       Processing DUP
+  DEBUG     ::     SYSTEM      Data stack: [65, 65]
+  INFO      ::     INSTR       Processing PUSH 35
+  DEBUG     ::     SYSTEM      Data stack: [65, 65, 35]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [65, 65, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [65, 65]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [65]
+  INFO      ::     INSTR       Processing JEQ 13
+  DEBUG     ::     SYSTEM      Data stack: [65]
+  INFO      ::     INSTR       Processing PRINT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing JMP 1
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: INPUT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing LOAD 0
+  DEBUG     ::     SYSTEM      Data stack: [112]
+  INFO      ::     INSTR       Processing DUP
+  DEBUG     ::     SYSTEM      Data stack: [112, 112]
+  INFO      ::     INSTR       Processing PUSH 35
+  DEBUG     ::     SYSTEM      Data stack: [112, 112, 35]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [112, 112, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [112, 112]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [112]
+  INFO      ::     INSTR       Processing JEQ 13
+  DEBUG     ::     SYSTEM      Data stack: [112]
+  INFO      ::     INSTR       Processing PRINT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing JMP 1
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: INPUT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing LOAD 0
+  DEBUG     ::     SYSTEM      Data stack: [112]
+  INFO      ::     INSTR       Processing DUP
+  DEBUG     ::     SYSTEM      Data stack: [112, 112]
+  INFO      ::     INSTR       Processing PUSH 35
+  DEBUG     ::     SYSTEM      Data stack: [112, 112, 35]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [112, 112, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [112, 112]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [112]
+  INFO      ::     INSTR       Processing JEQ 13
+  DEBUG     ::     SYSTEM      Data stack: [112]
+  INFO      ::     INSTR       Processing PRINT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing JMP 1
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: INPUT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing LOAD 0
+  DEBUG     ::     SYSTEM      Data stack: [114]
+  INFO      ::     INSTR       Processing DUP
+  DEBUG     ::     SYSTEM      Data stack: [114, 114]
+  INFO      ::     INSTR       Processing PUSH 35
+  DEBUG     ::     SYSTEM      Data stack: [114, 114, 35]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [114, 114, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [114, 114]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [114]
+  INFO      ::     INSTR       Processing JEQ 13
+  DEBUG     ::     SYSTEM      Data stack: [114]
+  INFO      ::     INSTR       Processing PRINT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing JMP 1
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing JMP 1
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing JMP 1
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: INPUT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing LOAD 0
+  DEBUG     ::     SYSTEM      Data stack: [111]
+  INFO      ::     INSTR       Processing DUP
+  DEBUG     ::     SYSTEM      Data stack: [111, 111]
+  INFO      ::     INSTR       Processing PUSH 35
+  DEBUG     ::     SYSTEM      Data stack: [111, 111, 35]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [111, 111, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [111, 111]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [111]
+  INFO      ::     INSTR       Processing JEQ 13
+  DEBUG     ::     SYSTEM      Data stack: [111]
+  INFO      ::     INSTR       Processing PRINT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing JMP 1
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: INPUT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing LOAD 0
+  DEBUG     ::     SYSTEM      Data stack: [120]
+  INFO      ::     INSTR       Processing DUP
+  DEBUG     ::     SYSTEM      Data stack: [120, 120]
+  INFO      ::     INSTR       Processing PUSH 35
+  DEBUG     ::     SYSTEM      Data stack: [120, 120, 35]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [120, 120, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [120, 120]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [120]
+  INFO      ::     INSTR       Processing JEQ 13
+  DEBUG     ::     SYSTEM      Data stack: [120]
+  INFO      ::     INSTR       Processing PRINT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing JMP 1
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: INPUT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing LOAD 0
+  DEBUG     ::     SYSTEM      Data stack: [105]
+  INFO      ::     INSTR       Processing DUP
+  DEBUG     ::     SYSTEM      Data stack: [105, 105]
+  INFO      ::     INSTR       Processing PUSH 35
+  DEBUG     ::     SYSTEM      Data stack: [105, 105, 35]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [105, 105, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [105, 105]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [105]
+  INFO      ::     INSTR       Processing JEQ 13
+  DEBUG     ::     SYSTEM      Data stack: [105]
+  INFO      ::     INSTR       Processing PRINT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing JMP 1
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: INPUT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing LOAD 0
+  DEBUG     ::     SYSTEM      Data stack: [109]
+  INFO      ::     INSTR       Processing DUP
+  DEBUG     ::     SYSTEM      Data stack: [109, 109]
+  INFO      ::     INSTR       Processing PUSH 35
+  DEBUG     ::     SYSTEM      Data stack: [109, 109, 35]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [109, 109, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [109, 109]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [109]
+  INFO      ::     INSTR       Processing JEQ 13
+  DEBUG     ::     SYSTEM      Data stack: [109]
+  INFO      ::     INSTR       Processing PRINT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing JMP 1
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: INPUT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing LOAD 0
+  DEBUG     ::     SYSTEM      Data stack: [97]
+  INFO      ::     INSTR       Processing DUP
+  DEBUG     ::     SYSTEM      Data stack: [97, 97]
+  INFO      ::     INSTR       Processing PUSH 35
+  DEBUG     ::     SYSTEM      Data stack: [97, 97, 35]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [97, 97, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [97, 97]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [97]
+  INFO      ::     INSTR       Processing JEQ 13
+  DEBUG     ::     SYSTEM      Data stack: [97]
+  INFO      ::     INSTR       Processing PRINT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing JMP 1
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: INPUT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing LOAD 0
+  DEBUG     ::     SYSTEM      Data stack: [116]
+  INFO      ::     INSTR       Processing DUP
+  DEBUG     ::     SYSTEM      Data stack: [116, 116]
+  INFO      ::     INSTR       Processing PUSH 35
+  DEBUG     ::     SYSTEM      Data stack: [116, 116, 35]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [116, 116, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [116, 116]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [116]
+  INFO      ::     INSTR       Processing JEQ 13
+  DEBUG     ::     SYSTEM      Data stack: [116]
+  INFO      ::     INSTR       Processing PRINT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing JMP 1
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: INPUT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing LOAD 0
+  DEBUG     ::     SYSTEM      Data stack: [105]
+  INFO      ::     INSTR       Processing DUP
+  DEBUG     ::     SYSTEM      Data stack: [105, 105]
+  INFO      ::     INSTR       Processing PUSH 35
+  DEBUG     ::     SYSTEM      Data stack: [105, 105, 35]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [105, 105, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [105, 105]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [105]
+  INFO      ::     INSTR       Processing JEQ 13
+  DEBUG     ::     SYSTEM      Data stack: [105]
+  INFO      ::     INSTR       Processing PRINT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing JMP 1
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: INPUT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing LOAD 0
+  DEBUG     ::     SYSTEM      Data stack: [111]
+  INFO      ::     INSTR       Processing DUP
+  DEBUG     ::     SYSTEM      Data stack: [111, 111]
+  INFO      ::     INSTR       Processing PUSH 35
+  DEBUG     ::     SYSTEM      Data stack: [111, 111, 35]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [111, 111, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [111, 111]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [111]
+  INFO      ::     INSTR       Processing JEQ 13
+  DEBUG     ::     SYSTEM      Data stack: [111]
+  INFO      ::     INSTR       Processing PRINT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing JMP 1
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: INPUT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing LOAD 0
+  DEBUG     ::     SYSTEM      Data stack: [110]
+  INFO      ::     INSTR       Processing DUP
+  DEBUG     ::     SYSTEM      Data stack: [110, 110]
+  INFO      ::     INSTR       Processing PUSH 35
+  DEBUG     ::     SYSTEM      Data stack: [110, 110, 35]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [110, 110, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [110, 110]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [110]
+  INFO      ::     INSTR       Processing JEQ 13
+  DEBUG     ::     SYSTEM      Data stack: [110]
+  INFO      ::     INSTR       Processing PRINT
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing JMP 1
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: INPUT
+  DEBUG     ::     SYSTEM      Data stack: [35]
+  INFO      ::     INSTR       Processing DUP
+  DEBUG     ::     SYSTEM      Data stack: [35, 35]
+  INFO      ::     INSTR       Processing PUSH 35
+  DEBUG     ::     SYSTEM      Data stack: [35, 35, 35]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [35, 35, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [35, 35]
+  INFO      ::     INSTR       Processing POP
+  DEBUG     ::     SYSTEM      Data stack: [35]
+  INFO      ::     INSTR       Processing JEQ 13
+  DEBUG     ::     SYSTEM      Data stack: [35]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [35]
+  INFO      ::     INSTR       Processing HLT
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: HLT
+  INFO      ::     SYSTEM      Halting
+  INFO      ::     SYSTEM      Program finished: ticks = 427, instructions executed = 143
+
+
