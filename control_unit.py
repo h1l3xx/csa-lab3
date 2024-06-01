@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import ClassVar
+
 from data_path import DataPath
 from interruption import Interruption, InterruptionType
 from isa import Opcode
@@ -12,11 +14,12 @@ class ControlUnit:
     data_path: DataPath = None
     program_counter: int = None
     current_operand: int = None
-    interrupt_schedule: dict | None = dict()
     interruption_vector_addr = None
     interruption_section = False
     inter_buff = 0
     limit = None
+
+    interrupt_schedule: ClassVar[dict | None] = dict()
 
     instruction_counter: int = 0
     logger: Logger = None

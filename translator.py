@@ -44,7 +44,7 @@ def translate_data_part(token: str, data_length: int) -> tuple[int, Any, list[in
         assert 1 <= num <= MAX_UNSIGN, f"Wrong instruction argument: {token}"
         tokens = [0] * num
     else:
-        raise ValueError(f"Wrong opcode: {opcode}")
+        raise ValueError()
 
     return current_data, variable, tokens
 
@@ -90,7 +90,7 @@ def translate_stage_1(
     for line in text.splitlines():
         token = get_meaningful_token(line)
         if not data_stage and token == ".data":
-            raise ValueError(".data shouldn't't be there")
+            raise ValueError()
         if token == "" or token == ".data:":
             continue
 
@@ -136,8 +136,7 @@ def add_data(tokens: list[str | int | Opcode]) -> list[dict[str, str | int] | di
     return data
 
 
-def insert_labels(labels: dict, data: list[dict[str, str | int]], code:  list[dict[str, str | int] | dict[str, int] | dict[str, int] | dict[str, int]], data_length: int):
-
+def insert_labels(labels: dict, data: list[dict[str, str | int]], code: list[dict[str, str | int] | dict[str, int] | dict[str, int] | dict[str, int]], data_length: int):
     for i in range(len(labels)):
         label, index = labels.popitem()
 
@@ -171,24 +170,22 @@ def translate_stage_2(variables: dict[str, int], tokens: list[str | int | Opcode
         else:
             if isinstance(token, str):
                 continue
+
+            opcode = token[0].value
+            arg = token[1]
+            if arg in labels:
+                code.append({"index": i, "opcode": opcode, "arg": labels[arg]})
+            elif arg in variables:
+                code.append({"index": i, "opcode": opcode, "arg": variables[arg] + 1})
             else:
-                opcode = token[0].value
-                arg = token[1]
-                if arg in labels:
-                    code.append({"index": i, "opcode": opcode, "arg": labels[arg]})
-                elif arg in variables:
-                    code.append({"index": i, "opcode": opcode, "arg": variables[arg] + 1})
-                else:
-                    code.append({"index": i, "opcode": opcode, "arg": arg})
+                code.append({"index": i, "opcode": opcode, "arg": arg})
 
     return insert_labels(labels, data, code, data_length)
 
 
 def translate(text: str) -> list[dict[str, int | str | Opcode] | dict[str, int]]:
     variables, tokens = translate_stage_1(text)
-    code = translate_stage_2(variables, tokens)
-
-    return code
+    return translate_stage_2(variables, tokens)
 
 
 def main(source: str, target: str):

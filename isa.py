@@ -75,6 +75,7 @@ def read_code(source: str) -> list[int]:
 def decode_data_line(line) -> int | None:
     if line["opcode"] != Opcode.DATA_SIZE.value:
         return int(line["arg"])
+    return None
 
 
 def read_data(source: str) -> list[str]:

@@ -49,7 +49,7 @@ def simulate(input_file: str, stack_size: int, schedule: str | None, limit: int,
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Симуляция процессора")
-    parser.add_argument("code_file", help="Имя файла с кодом")
+    parser.add_argument("code_file")
     parser.add_argument("input_file")
     parser.add_argument("stack_size")
     parser.add_argument("ticks_limit")

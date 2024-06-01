@@ -21,7 +21,7 @@ class DataPath:
         self.data_stack = Stack(stack_size)
         self.input_buffer = 0
         self.output_buffer = []
-        self.data = [0, 1] + memory
+        self.data = [0, 1, *memory]
         self.data_size = len(memory)
         self.alu = ALU()
 
