@@ -17,7 +17,7 @@ def simulate(input_file: str, stack_size: int, schedule: str | None, limit: int,
 
     if read[0]["index"] == -1:
         data_size = read[1]["arg"]
-        data = read[2: data_size + 2]
+        data = read[2 : data_size + 2]
 
         interruption_vector_addr = read[0]["arg"]
         code = read[data_size + 2 :]
@@ -57,4 +57,4 @@ if __name__ == "__main__":
     parser.add_argument("log_file")
     args = parser.parse_args()
 
-    simulate(args.code_file, args.stack_size, args.input_file, args.ticks_limit)
+    simulate(args.code_file, args.stack_size, args.input_file, args.ticks_limit, args.log_file)
