@@ -1,8 +1,9 @@
-from isa import Opcode
+from __future__ import annotations
 from data_path import DataPath
-from stack import Stack
 from interruption import Interruption, InterruptionType
+from isa import Opcode
 from logger import Logger, LogLevel, Place
+from stack import Stack
 
 
 class ControlUnit:
