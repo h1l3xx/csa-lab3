@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 import argparse
 
+
 from isa import *
-from isa import Opcode
 
 
 def get_meaningful_token(line: str) -> str:
@@ -172,7 +174,7 @@ def translate_stage_2(variables: dict[str, int], tokens: list[str | int | Opcode
     return code
 
 
-def translate(text: str) -> list[dict[str, int | str | Opcode | Any] | dict[str, int | Any]]:
+def translate(text: str) -> list[dict[str, int | str | Opcode] | dict[str, int]]:
     variables, tokens = translate_stage_1(text)
     code = translate_stage_2(variables, tokens)
 

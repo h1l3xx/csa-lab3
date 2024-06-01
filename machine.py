@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import argparse
+
 
 from control_unit import ControlUnit
 from isa import read_code, decode_data_line, read_data
@@ -14,7 +17,7 @@ def simulate(input_file: str, stack_size: int, schedule: str | None, limit: int,
 
     if read[0]["index"] == -1:
         data_size = read[1]["arg"]
-        data = read[2 : data_size + 2]
+        data = read[2: data_size + 2]
 
         interruption_vector_addr = read[0]["arg"]
         code = read[data_size + 2 :]
