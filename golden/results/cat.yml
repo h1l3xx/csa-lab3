@@ -54,7 +54,7 @@ out_code: |-
    {"index": 14, "opcode": "HLT"}]
 
 out_stdout: |
-  LoC: 19 Code bytes: 64
+  LoC: 19
   ============================================================
   Approximation
 

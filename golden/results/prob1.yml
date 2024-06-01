@@ -185,7 +185,7 @@ out_code: |-
    {"index": 84, "opcode": "NOP"},
    {"index": 85, "opcode": "HLT"}]
 out_stdout: |
-  LoC: 97 Code bytes: 344
+  LoC: 97
   ============================================================
   233168
 out_log: |-

@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 
 
-from isa import *
+from isa import Opcode, MAX_UNSIGN, MAX_SIGN, Any, MIN_SIGN, write_code
 
 
 def get_meaningful_token(line: str) -> str:
@@ -119,10 +119,8 @@ def translate_stage_1(
     return variables, tokens
 
 
-def translate_stage_2(variables: dict[str, int], tokens: list[str | int | Opcode]) -> list[dict[str, int | str | Opcode | Any] | dict[str, int | Any]]:
-    code = []
+def add_data(tokens: list[str | int | Opcode]) -> list[dict[str, str | int] | dict[str, str | int] | dict[str, str | int]]:
     data = []
-    labels = {}
 
     data_length = int(tokens[0])
 
@@ -135,6 +133,28 @@ def translate_stage_2(variables: dict[str, int], tokens: list[str | int | Opcode
             data.append({"index": i, "opcode": Opcode.DATA.value, "arg": token})
         elif " MEM" in token:
             data.append({"index": i, "opcode": Opcode.DATA_SIZE.value, "arg": token.split(" ")[0]})
+
+    return data
+
+
+def insert_labels(labels: dict, data: list[dict[str, str | int]], code:  list[dict[str, str | int] | dict[str, int] | dict[str, int] | dict[str, int]], data_length: int):
+
+    for i in range(len(labels)):
+        label, index = labels.popitem()
+
+        if label == "interrupt":
+            data.insert(0, {"index": -1, "opcode": Opcode.DATA.value, "arg": index})
+
+        code.insert(index - data_length - 1, {"index": index, "opcode": Opcode.NOP.value})
+    return data + code
+
+
+def translate_stage_2(variables: dict[str, int], tokens: list[str | int | Opcode]) -> list[dict[str, int | str | Opcode | Any] | dict[str, int | Any]]:
+    code = []
+    labels = {}
+
+    data = add_data(tokens)
+    data_length = int(tokens[0])
 
     code_size = len(tokens) - data_length
 
@@ -162,16 +182,7 @@ def translate_stage_2(variables: dict[str, int], tokens: list[str | int | Opcode
                 else:
                     code.append({"index": i, "opcode": opcode, "arg": arg})
 
-    for i in range(len(labels)):
-        label, index = labels.popitem()
-
-        if label == "interrupt":
-            data.insert(0, {"index": -1, "opcode": Opcode.DATA.value, "arg": index})
-
-        code.insert(index - data_length - 1, {"index": index, "opcode": Opcode.NOP.value})
-
-    code = data + code
-    return code
+    return insert_labels(labels, data, code, data_length)
 
 
 def translate(text: str) -> list[dict[str, int | str | Opcode] | dict[str, int]]:
@@ -188,7 +199,7 @@ def main(source: str, target: str):
     code = translate(text)
     write_code(target, code)
 
-    print("LoC:", len(text.split("\n")), "Code bytes:", len(code) * BITS // 8)
+    print("LoC:", len(text.split("\n")))
 
 
 if __name__ == "__main__":
