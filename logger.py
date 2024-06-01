@@ -19,16 +19,11 @@ class Place(Enum):
 
 class Logger:
     def __init__(self):
-        self.log_device = None
+        self.log_file = None
 
     def set_log_filepath(self, log_filepath: str):
-        self.log_device = open(log_filepath, 'a')
+        self.log_file = open(log_filepath, "a")
 
     def log(self, level: LogLevel, place: Place, message: str):
-        assert self.log_device is not None, "Log device is not set"
-
-        self.log_device.write(f"{level.name:<10}{'::':<7}{place.name:<12}{message}\n")
-        self.log_device.flush()
-
-    def turn_off(self):
-        self.log_device.close()
+        self.log_file.write(f"{level.name:<10}{'::':<7}{place.name:<12}{message}\n")
+        self.log_file.flush()

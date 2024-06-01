@@ -9,7 +9,6 @@ def get_meaningful_token(line: str) -> str:
 
 
 def translate_data_part(token: str, data_length: int) -> tuple[int, Any, list[int | Any] | list[int | str] | list[int]]:
-
     current_data = data_length
     variable, str_opcode, arg = token.split(" ", 2)
     opcode = Opcode[str_opcode]
@@ -53,20 +52,9 @@ def translate_code_part(token: str) -> list[str | int | Opcode]:
     tokens = []
     if " " in token:  # instruction with argument
         sub_tokens = token.split(" ")
-        assert (
-                len(sub_tokens) == 2
-        ), f"Invalid instruction, check arguments amount: {token}"
+        assert len(sub_tokens) == 2, f"Invalid instruction, check arguments amount: {token}"
         opcode = Opcode[sub_tokens[0]]
-        assert opcode in [
-            Opcode.PRINT,
-            Opcode.PUSH,
-            Opcode.PUSH_VAL,
-            Opcode.JMP,
-            Opcode.JNE,
-            Opcode.LOAD,
-            Opcode.JEQ,
-            Opcode.PRINT_VAL
-        ], f"Instruction shouldn't have an argument: {token}"
+        assert opcode in [Opcode.PRINT, Opcode.PUSH, Opcode.PUSH_VAL, Opcode.JMP, Opcode.JNE, Opcode.LOAD, Opcode.JEQ, Opcode.PRINT_VAL], f"Instruction shouldn't have an argument: {token}"
         arg = sub_tokens[1]
         if arg.isdigit():
             arg = int(arg)
@@ -89,7 +77,7 @@ def translate_code_part(token: str) -> list[str | int | Opcode]:
 
 
 def translate_stage_1(
-        text: str,
+    text: str,
 ) -> tuple[dict[str, int], list[str | int | Opcode]]:
     variables = {}
     tokens = [0]  # first token is data part length
@@ -129,10 +117,7 @@ def translate_stage_1(
     return variables, tokens
 
 
-def translate_stage_2(
-        variables: dict[str, int], tokens: list[str | int | Opcode]
-) -> list[dict[str, int | str | Opcode | Any] | dict[str, int | Any]]:
-
+def translate_stage_2(variables: dict[str, int], tokens: list[str | int | Opcode]) -> list[dict[str, int | str | Opcode | Any] | dict[str, int | Any]]:
     code = []
     data = []
     labels = {}
@@ -176,7 +161,6 @@ def translate_stage_2(
                     code.append({"index": i, "opcode": opcode, "arg": arg})
 
     for i in range(len(labels)):
-
         label, index = labels.popitem()
 
         if label == "interrupt":

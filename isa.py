@@ -5,7 +5,7 @@ from typing import Any
 BITS = 32
 MIN_SIGN = -(2 ** (BITS - 1))
 MAX_SIGN = 2 ** (BITS - 1) - 1
-MAX_UNSIGN = 2 ** BITS - 1
+MAX_UNSIGN = 2**BITS - 1
 
 
 class Opcode(Enum):

@@ -13,17 +13,16 @@ def simulate(input_file: str, stack_size: int, schedule: str | None, limit: int,
     interruption_vector_addr = None
 
     if read[0]["index"] == -1:
-
         data_size = read[1]["arg"]
-        data = read[2:data_size + 2]
+        data = read[2 : data_size + 2]
 
         interruption_vector_addr = read[0]["arg"]
-        code = read[data_size + 2:]
+        code = read[data_size + 2 :]
     else:
         data_size = read[0]["arg"]
 
-        data = read[1:data_size+1]
-        code = read[data_size+1:]
+        data = read[1 : data_size + 1]
+        code = read[data_size + 1 :]
 
     data_memory = []
 
@@ -31,7 +30,6 @@ def simulate(input_file: str, stack_size: int, schedule: str | None, limit: int,
         decode = decode_data_line(data[i])
 
         if decode is not None:
-
             data_memory.append(decode)
 
     data_path = DataPath(data_memory, int(stack_size))
@@ -47,7 +45,7 @@ def simulate(input_file: str, stack_size: int, schedule: str | None, limit: int,
     print("".join(control_unit.data_path.output_buffer))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Симуляция процессора")
     parser.add_argument("code_file", help="Имя файла с кодом")
     parser.add_argument("input_file")

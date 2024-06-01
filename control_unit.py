@@ -6,7 +6,6 @@ from logger import Logger, LogLevel, Place
 
 
 class ControlUnit:
-
     tick_counter: int = None
     data_path: DataPath = None
     program_counter: int = None
@@ -54,13 +53,11 @@ class ControlUnit:
         self.program_counter += 1
 
     def interrupt_handling(self):
-
         self.logger.log(LogLevel.DEBUG, Place.INTER, f"Have {self.interrupt_stack.size()} interruptions")
         interrupt = self.interrupt_stack.pop()
         self.logger.log(LogLevel.DEBUG, Place.INTER, f"Processing {interrupt}")
 
         match interrupt.type.name:
-
             case InterruptionType.HLT.value:
                 self.exit = True
                 self.tick()
@@ -68,7 +65,6 @@ class ControlUnit:
 
             case InterruptionType.INPUT.value:
                 if self.interruption_vector_addr is not None:
-
                     self.program_counter = self.interruption_vector_addr - self.data_path.data_size - 1
 
                     self.check_interruption(interrupt)
@@ -78,21 +74,17 @@ class ControlUnit:
                         self.decode_and_execute()
 
     def convert_schedule(self, schedule):
-
         for instruction in schedule:
             try:
                 tick, value = instruction.split(" : ")
                 self.interrupt_schedule[int(tick)] = str(value)
             except ValueError:
-
                 tick = instruction.split(" :")[0]
-                self.interrupt_schedule[int(tick)] = '#'
+                self.interrupt_schedule[int(tick)] = "#"
 
     def check_interruption(self, interruption: Interruption):
-
         if interruption.type.value == "INPUT":
-
-            if self.interrupt_schedule[self.tick_counter] == '#':
+            if self.interrupt_schedule[self.tick_counter] == "#":
                 self.data_path.push_in_stack(35)
                 self.data_path.load_in_memory(0, 35)
                 self.program_counter += 2
@@ -118,8 +110,7 @@ class ControlUnit:
                 else:
                     self.interrupt_handling()
 
-        self.logger.log(LogLevel.INFO, Place.SYSTEM, f"Program finished: ticks = {self.tick_counter},"
-                                                     f" instructions executed = {self.instruction_counter}")
+        self.logger.log(LogLevel.INFO, Place.SYSTEM, f"Program finished: ticks = {self.tick_counter}," f" instructions executed = {self.instruction_counter}")
 
     def decode_and_execute(self):
         self.instruction_counter += 1
@@ -147,7 +138,6 @@ class ControlUnit:
 
                 self.inc_program_counter()
             case Opcode.PUSH_VAL:
-
                 arg = instruction["arg"] + 1
                 value = self.data_path.data[arg]
                 self.tick()
@@ -157,7 +147,6 @@ class ControlUnit:
 
                 self.inc_program_counter()
             case Opcode.DUP:
-
                 value = self.data_path.peek_from_stack()
                 self.tick()
 
@@ -167,7 +156,6 @@ class ControlUnit:
                 self.inc_program_counter()
 
             case Opcode.POP:
-
                 if self.data_path.data_stack.is_empty():
                     interruption = Interruption(InterruptionType.HLT)
                     self.interrupt_stack.push(interruption)
@@ -181,7 +169,6 @@ class ControlUnit:
 
                 self.inc_program_counter()
             case Opcode.ADD:
-
                 b = self.data_path.pop_from_stack()
                 self.tick()
 
@@ -200,7 +187,6 @@ class ControlUnit:
                 self.inc_program_counter()
 
             case Opcode.SUB:
-
                 b = self.data_path.pop_from_stack()
                 self.tick()
 
@@ -218,7 +204,6 @@ class ControlUnit:
 
                 self.inc_program_counter()
             case Opcode.MUL:
-
                 b = self.data_path.pop_from_stack()
                 self.tick()
 
@@ -237,7 +222,6 @@ class ControlUnit:
                 self.inc_program_counter()
 
             case Opcode.DIV:
-
                 a = self.data_path.pop_from_stack()
                 self.tick()
 
@@ -292,7 +276,6 @@ class ControlUnit:
                 self.inc_program_counter()
 
             case Opcode.JMP:
-
                 arg = instruction["arg"] - self.data_path.data_size - 1
                 self.set_program_counter(arg)
                 self.tick()
@@ -302,7 +285,6 @@ class ControlUnit:
 
             case Opcode.JEQ:
                 if self.data_path.alu.result == 0:
-
                     arg = instruction["arg"] - self.data_path.get_data_size() - 1
                     self.set_program_counter(arg)
                     self.tick()
@@ -314,7 +296,6 @@ class ControlUnit:
                     self.inc_program_counter()
 
             case Opcode.PRINT:
-
                 value = self.data_path.pop_from_stack()
                 self.tick()
 
@@ -324,7 +305,6 @@ class ControlUnit:
                 self.inc_program_counter()
 
             case Opcode.SAVE:
-
                 value = self.data_path.pop_from_stack()
                 self.tick()
 
@@ -350,7 +330,6 @@ class ControlUnit:
 
                 self.inc_program_counter()
             case Opcode.COMPARE:
-
                 a = self.data_path.peek_from_stack()
                 self.tick()
 
@@ -368,7 +347,6 @@ class ControlUnit:
 
                 self.inc_program_counter()
             case Opcode.PRINT_VAL:
-
                 value = self.data_path.data_stack.pop()
                 self.tick()
 
@@ -378,9 +356,7 @@ class ControlUnit:
                 self.inc_program_counter()
 
             case Opcode.JNE:
-
                 if not self.data_path.alu.zero:
-
                     arg = instruction["arg"] - self.data_path.get_data_size()
                     self.set_program_counter(arg)
                     self.tick()
@@ -398,12 +374,10 @@ class ControlUnit:
                 self.inc_program_counter()
 
             case Opcode.NOP:
-
                 self.tick()
                 self.inc_program_counter()
 
             case Opcode.LOAD:
-
                 arg = instruction["arg"]
                 value = self.data_path.get_from_memory(arg)
                 self.tick()
@@ -414,7 +388,6 @@ class ControlUnit:
                 self.inc_program_counter()
 
             case Opcode.SWAP:
-
                 a = self.data_path.data_stack.pop()
                 self.tick()
 
