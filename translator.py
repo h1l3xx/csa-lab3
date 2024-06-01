@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import argparse
 
-
-from isa import Opcode, MAX_UNSIGN, MAX_SIGN, Any, MIN_SIGN, write_code
+from isa import MAX_SIGN, MAX_UNSIGN, MIN_SIGN, Any, Opcode, write_code
 
 
 def get_meaningful_token(line: str) -> str:
@@ -193,7 +192,7 @@ def translate(text: str) -> list[dict[str, int | str | Opcode] | dict[str, int]]
 
 
 def main(source: str, target: str):
-    with open(source, "r") as f:
+    with open(source) as f:
         text = f.read()
 
     code = translate(text)

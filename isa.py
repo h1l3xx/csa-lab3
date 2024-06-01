@@ -1,6 +1,7 @@
 from __future__ import annotations
-from enum import Enum
+
 import json
+from enum import Enum
 from typing import Any
 
 BITS = 32

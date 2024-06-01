@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from data_path import DataPath
 from interruption import Interruption, InterruptionType
 from isa import Opcode
