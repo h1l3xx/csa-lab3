@@ -144,7 +144,7 @@ python machine.py <code_filepath> <stack_size> <input_filepath> <ticks_limit> <l
 
 Реализован в классе `DataPath`.
 
-//тут должно быть изображение схемы//
+<img src="./scheme/data_path.png">
 
 //тут описывающий логику текст//
 
@@ -152,7 +152,7 @@ python machine.py <code_filepath> <stack_size> <input_filepath> <ticks_limit> <l
 
 Реализован в классе `ControlUnit`.
 
-//тут должно быть изображение схемы//
+<img src="./scheme/control_unit.png">
 
 //тут описывающий логику текст//
 ## Тестирование
