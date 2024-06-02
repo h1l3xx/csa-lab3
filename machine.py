@@ -2,9 +2,8 @@ from __future__ import annotations
 
 import argparse
 
-
-from data_path import DataPath
 from control_unit import ControlUnit
+from data_path import DataPath
 from isa import decode_data_line, read_code, read_data
 from logger import Logger, LogLevel, Place
 
