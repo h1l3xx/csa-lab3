@@ -147,8 +147,7 @@ def insert_labels(labels: dict, data: list[dict[str, str | int]], code: list[dic
     return data + code, len(code)
 
 
-def translate_stage_2(variables: dict[str, int], tokens: list[str | int | Opcode]) -> tuple[
-    list[dict[str, str | int]], int]:
+def translate_stage_2(variables: dict[str, int], tokens: list[str | int | Opcode]) -> tuple[list[dict[str, str | int]], int]:
     code = []
     labels = {}
 
