@@ -87,8 +87,6 @@ out_log: |-
   INFO      ::     INSTR       Processing PRINT
   DEBUG     ::     SYSTEM      Data stack: []
   INFO      ::     INSTR       Processing JMP 1
-  DEBUG     ::     SYSTEM      Data stack: []
-  INFO      ::     INSTR       Processing NOP
   DEBUG     ::     INTER       Have 1 interruptions
   DEBUG     ::     INTER       Processing Interruption: INPUT
   DEBUG     ::     SYSTEM      Data stack: []
@@ -111,8 +109,6 @@ out_log: |-
   INFO      ::     INSTR       Processing PRINT
   DEBUG     ::     SYSTEM      Data stack: []
   INFO      ::     INSTR       Processing JMP 1
-  DEBUG     ::     SYSTEM      Data stack: []
-  INFO      ::     INSTR       Processing NOP
   DEBUG     ::     INTER       Have 1 interruptions
   DEBUG     ::     INTER       Processing Interruption: INPUT
   DEBUG     ::     SYSTEM      Data stack: []
@@ -135,8 +131,6 @@ out_log: |-
   INFO      ::     INSTR       Processing PRINT
   DEBUG     ::     SYSTEM      Data stack: []
   INFO      ::     INSTR       Processing JMP 1
-  DEBUG     ::     SYSTEM      Data stack: []
-  INFO      ::     INSTR       Processing NOP
   DEBUG     ::     INTER       Have 1 interruptions
   DEBUG     ::     INTER       Processing Interruption: INPUT
   DEBUG     ::     SYSTEM      Data stack: []
@@ -167,10 +161,6 @@ out_log: |-
   INFO      ::     INSTR       Processing NOP
   DEBUG     ::     SYSTEM      Data stack: []
   INFO      ::     INSTR       Processing JMP 1
-  DEBUG     ::     SYSTEM      Data stack: []
-  INFO      ::     INSTR       Processing NOP
-  DEBUG     ::     SYSTEM      Data stack: []
-  INFO      ::     INSTR       Processing JMP 1
   DEBUG     ::     INTER       Have 1 interruptions
   DEBUG     ::     INTER       Processing Interruption: INPUT
   DEBUG     ::     SYSTEM      Data stack: []
@@ -193,8 +183,6 @@ out_log: |-
   INFO      ::     INSTR       Processing PRINT
   DEBUG     ::     SYSTEM      Data stack: []
   INFO      ::     INSTR       Processing JMP 1
-  DEBUG     ::     SYSTEM      Data stack: []
-  INFO      ::     INSTR       Processing NOP
   DEBUG     ::     INTER       Have 1 interruptions
   DEBUG     ::     INTER       Processing Interruption: INPUT
   DEBUG     ::     SYSTEM      Data stack: []
@@ -217,8 +205,6 @@ out_log: |-
   INFO      ::     INSTR       Processing PRINT
   DEBUG     ::     SYSTEM      Data stack: []
   INFO      ::     INSTR       Processing JMP 1
-  DEBUG     ::     SYSTEM      Data stack: []
-  INFO      ::     INSTR       Processing NOP
   DEBUG     ::     INTER       Have 1 interruptions
   DEBUG     ::     INTER       Processing Interruption: INPUT
   DEBUG     ::     SYSTEM      Data stack: []
@@ -241,8 +227,6 @@ out_log: |-
   INFO      ::     INSTR       Processing PRINT
   DEBUG     ::     SYSTEM      Data stack: []
   INFO      ::     INSTR       Processing JMP 1
-  DEBUG     ::     SYSTEM      Data stack: []
-  INFO      ::     INSTR       Processing NOP
   DEBUG     ::     INTER       Have 1 interruptions
   DEBUG     ::     INTER       Processing Interruption: INPUT
   DEBUG     ::     SYSTEM      Data stack: []
@@ -265,8 +249,6 @@ out_log: |-
   INFO      ::     INSTR       Processing PRINT
   DEBUG     ::     SYSTEM      Data stack: []
   INFO      ::     INSTR       Processing JMP 1
-  DEBUG     ::     SYSTEM      Data stack: []
-  INFO      ::     INSTR       Processing NOP
   DEBUG     ::     INTER       Have 1 interruptions
   DEBUG     ::     INTER       Processing Interruption: INPUT
   DEBUG     ::     SYSTEM      Data stack: []
@@ -289,8 +271,6 @@ out_log: |-
   INFO      ::     INSTR       Processing PRINT
   DEBUG     ::     SYSTEM      Data stack: []
   INFO      ::     INSTR       Processing JMP 1
-  DEBUG     ::     SYSTEM      Data stack: []
-  INFO      ::     INSTR       Processing NOP
   DEBUG     ::     INTER       Have 1 interruptions
   DEBUG     ::     INTER       Processing Interruption: INPUT
   DEBUG     ::     SYSTEM      Data stack: []
@@ -313,8 +293,6 @@ out_log: |-
   INFO      ::     INSTR       Processing PRINT
   DEBUG     ::     SYSTEM      Data stack: []
   INFO      ::     INSTR       Processing JMP 1
-  DEBUG     ::     SYSTEM      Data stack: []
-  INFO      ::     INSTR       Processing NOP
   DEBUG     ::     INTER       Have 1 interruptions
   DEBUG     ::     INTER       Processing Interruption: INPUT
   DEBUG     ::     SYSTEM      Data stack: []
@@ -337,8 +315,6 @@ out_log: |-
   INFO      ::     INSTR       Processing PRINT
   DEBUG     ::     SYSTEM      Data stack: []
   INFO      ::     INSTR       Processing JMP 1
-  DEBUG     ::     SYSTEM      Data stack: []
-  INFO      ::     INSTR       Processing NOP
   DEBUG     ::     INTER       Have 1 interruptions
   DEBUG     ::     INTER       Processing Interruption: INPUT
   DEBUG     ::     SYSTEM      Data stack: []
@@ -361,8 +337,6 @@ out_log: |-
   INFO      ::     INSTR       Processing PRINT
   DEBUG     ::     SYSTEM      Data stack: []
   INFO      ::     INSTR       Processing JMP 1
-  DEBUG     ::     SYSTEM      Data stack: []
-  INFO      ::     INSTR       Processing NOP
   DEBUG     ::     INTER       Have 1 interruptions
   DEBUG     ::     INTER       Processing Interruption: INPUT
   DEBUG     ::     SYSTEM      Data stack: []
@@ -385,8 +359,6 @@ out_log: |-
   INFO      ::     INSTR       Processing PRINT
   DEBUG     ::     SYSTEM      Data stack: []
   INFO      ::     INSTR       Processing JMP 1
-  DEBUG     ::     SYSTEM      Data stack: []
-  INFO      ::     INSTR       Processing NOP
   DEBUG     ::     INTER       Have 1 interruptions
   DEBUG     ::     INTER       Processing Interruption: INPUT
   DEBUG     ::     SYSTEM      Data stack: [35]
@@ -408,6 +380,6 @@ out_log: |-
   DEBUG     ::     INTER       Have 1 interruptions
   DEBUG     ::     INTER       Processing Interruption: HLT
   INFO      ::     SYSTEM      Halting
-  INFO      ::     SYSTEM      Program finished: ticks = 426, instructions executed = 157
+  INFO      ::     SYSTEM      Program finished: ticks = 427, instructions executed = 143
 
 

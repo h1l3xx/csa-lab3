@@ -260,6 +260,6 @@ out_log: |-
   DEBUG     ::     INTER       Have 1 interruptions
   DEBUG     ::     INTER       Processing Interruption: HLT
   INFO      ::     SYSTEM      Halting
-  INFO      ::     SYSTEM      Program finished: ticks = 280, instructions executed = 94
+  INFO      ::     SYSTEM      Program finished: ticks = 318, instructions executed = 94
 
 
