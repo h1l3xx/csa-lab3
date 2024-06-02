@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from alu import ALU
+from machine.alu import ALU
 from utils.stack import Stack
 
 
