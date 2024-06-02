@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-from typing import Tuple, List, Dict
 
 from isa import MAX_SIGN, MAX_UNSIGN, MIN_SIGN, Any, Opcode, write_code
 
