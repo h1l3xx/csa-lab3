@@ -140,13 +140,12 @@ comment         ::=     ";" <any symbols except "\n">
 ```
 python machine.py <code_filepath> <stack_size> <input_filepath> <ticks_limit> <log_filepath>
 ```
+
 ### Data Path
 
 Реализован в классе `DataPath`.
 
 <img src="./scheme/data_path.png">
-
-//тут описывающий логику текст//
 
 ### Control Unit
 
@@ -154,7 +153,16 @@ python machine.py <code_filepath> <stack_size> <input_filepath> <ticks_limit> <l
 
 <img src="./scheme/control_unit.png">
 
-//тут описывающий логику текст//
+Описание:
+- Процесс моделирования отслеживается по инструкциям (в Control Unit также идёт отсчёт в тактах для обработки прерываний)
+- Выполнение последовательное
+- Прекращение работы программы:
+- - `HLT`
+- - Деление на 0
+- Прерывания фиксируются только между инструкциями
+Флаги АЛУ:
+- `zero` - устанавливается, если результат последней арифметической операции равен 0, или если истинно сравнение `a == b`
+
 ## Тестирование
 Тестирование происходит при помощи Golden-тестов
 Тесты реализованы в: [golden_test.py](golden_test.py). 
