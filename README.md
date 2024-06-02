@@ -59,7 +59,7 @@ opcode1         ::=     "PUSH"
                       | "JEQ" 
                        
 
-operand             ::=     value | variable_name
+operand         ::=     value | variable_name
 
 comment         ::=     ";" <any symbols except "\n">
 ```
