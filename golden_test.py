@@ -8,7 +8,7 @@ import pytest
 import translator
 
 
-@pytest.mark.golden_test("golden/results/*.yml")
+@pytest.mark.golden_test("golden/*.yml")
 def test_translator_and_machine(golden, caplog):
     with tempfile.TemporaryDirectory() as tmpdirname:
         # Готовим имена файлов для входных и выходных данных.
