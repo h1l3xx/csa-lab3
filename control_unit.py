@@ -235,12 +235,10 @@ class ControlUnit:
                 if b == 0:
                     interruption = Interruption(InterruptionType.HLT)
                     self.interrupt_stack.push(interruption)
-                    self.tick()
                 else:
                     self.logger.log(LogLevel.DEBUG, Place.ALU, f"Dividing {a} and {b}")
 
                     self.data_path.alu.div(a, b)
-                    self.tick()
 
                     result = self.data_path.alu.result
                     self.data_path.push_in_stack(result)
@@ -283,7 +281,6 @@ class ControlUnit:
             case Opcode.JMP:
                 arg = instruction["arg"] - self.data_path.data_size - 1
                 self.set_program_counter(arg)
-                self.tick()
 
                 self.interruption_section = False
                 self.tick()
@@ -319,8 +316,6 @@ class ControlUnit:
                 self.data_path.load_in_memory(index, value)
                 self.tick()
 
-                self.tick()
-
                 self.inc_program_counter()
 
             case Opcode.PRINT_BY_INDEX:
@@ -336,7 +331,6 @@ class ControlUnit:
                 self.inc_program_counter()
             case Opcode.COMPARE:
                 a = self.data_path.peek_from_stack()
-                self.tick()
 
                 self.data_path.pop_from_stack()
                 self.tick()
@@ -364,7 +358,6 @@ class ControlUnit:
                 if not self.data_path.alu.zero:
                     arg = instruction["arg"] - self.data_path.get_data_size()
                     self.set_program_counter(arg)
-                    self.tick()
 
                     self.data_path.alu.zero = False
                     self.tick()
