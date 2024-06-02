@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import argparse
 
-from isa import MAX_SIGN, MAX_UNSIGN, MIN_SIGN, Any, Opcode, write_code
+from utils.isa import MAX_SIGN, MAX_UNSIGN, MIN_SIGN, Any, Opcode, write_code
 
 
 def get_meaningful_token(line: str) -> str:

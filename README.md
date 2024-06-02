@@ -43,18 +43,21 @@ opcode0         ::=     "POP"
                       | "MUL" 
                       | "DIV" 
                       | "COMPARE" 
-                      | "LOAD" 
                       | "SAVE"
-                      | "NOP"
-                      | "HLT"
-                      
-opcode1         ::=     "PUSH" 
-                      | "JMP" 
-                      | "JEQ" 
                       | "JNE" 
                       | "PRINT" 
                       | "PRINT_VAL" 
-                      | "PRINT_BY_INDEX"  
+                      | "PRINT_BY_INDEX" 
+                      | "NOP"
+                      | "HLT"
+                      
+opcode1         ::=     "PUSH"
+                      | "PUSH_VAL" 
+                      | "LOAD"
+                      | "JMP" 
+                      | "JNE"
+                      | "JEQ" 
+                       
 
 operand             ::=     value | variable_name
 
@@ -160,6 +163,7 @@ python machine.py <code_filepath> <stack_size> <input_filepath> <ticks_limit> <l
 - - `HLT`
 - - Деление на 0
 - Прерывания фиксируются только между инструкциями
+
 Флаги АЛУ:
 - `zero` - устанавливается, если результат последней арифметической операции равен 0, или если истинно сравнение `a == b`
 
@@ -312,7 +316,7 @@ out_log: |-
   INFO      ::     INSTR       Processing NOP
 
  ........
-  Сокращено из-за больного размера 
+  Сокращено из-за большого размера 
  ........
   INFO      ::     INSTR       Processing HLT
   DEBUG     ::     INTER       Have 1 interruptions

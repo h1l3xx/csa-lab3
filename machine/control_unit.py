@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from typing import ClassVar
 
-from data_path import DataPath
-from interruption import Interruption, InterruptionType
-from isa import Opcode
-from logger import Logger, LogLevel, Place
-from stack import Stack
+from machine.data_path import DataPath
+from utils.interruption import Interruption, InterruptionType
+from utils.isa import Opcode
+from utils.logger import Logger, LogLevel, Place
+from utils.stack import Stack
 
 
 class ControlUnit:
