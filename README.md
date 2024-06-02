@@ -8,13 +8,13 @@
 ## Язык программирования
 
 ``` ebnf
-program         ::=     { statement }
+line            ::=   section | label comment? "\n"
+                      | declaration comment? "\n"
+                      | instr comment? "\n"
+                      | comment "\n"
 
-statement       ::=     section       [ comment ] "\n"
-                      | declaration   [ comment ] "\n"
-                      | label         [ comment ] "\n"
-                      | instruction   [ comment ] "\n"
-                      |               [ comment ] "\n"
+program         ::=     line*
+
 
 section         ::=     "." section_name
 section_name    ::=     "data" | "code"
@@ -30,11 +30,10 @@ string          ::=     "\"" { <any symbols except "\""> } "\""
 label           ::=     label_name ":"
 label_name      ::=     <any of "a-z A-Z _"> { <any of "a-z A-Z 0-9 _"> }
 
-instruction     ::=     opcode_0
-                      | opcode_1 operand
-                      | opcode_2 label_name
+instr           ::=     opcode0
+                      | opcode1 operand | label_name 
               
-opcode          ::=     "POP" 
+opcode0         ::=     "POP" 
                       | "DUP" 
                       | "INC" 
                       | "DEC" 
@@ -44,25 +43,32 @@ opcode          ::=     "POP"
                       | "MUL" 
                       | "DIV" 
                       | "COMPARE" 
+                      | "LOAD" 
+                      | "SAVE"
                       | "NOP"
                       | "HLT"
-                      | "PUSH" 
-                      | "PUSH_VAL"
+                      
+opcode1         ::=     "PUSH" 
                       | "JMP" 
                       | "JEQ" 
                       | "JNE" 
                       | "PRINT" 
                       | "PRINT_VAL" 
-                      | "PRINT_BY_INDEX" 
-                      | "SAVE" 
-                      | "LOAD" 
+                      | "PRINT_BY_INDEX"  
 
-arg             ::=     value | variable_name
+operand             ::=     value | variable_name
 
 comment         ::=     ";" <any symbols except "\n">
 ```
 
-Код выполняется последовательно. Операции:
+Примечания:
+- Код выполняется последовательно
+- Область видимости - глобальная
+- Первая указанная команда в сегменте инструкций считается началом программы
+- Все переменные должны быть объявлены до использования в секции данных
+- В программе не может быть меток, переменных и команд с одинаковыми именами
+- Метки могут быть объявлены в любом месте программы, на отдельной строке
+- Метка `interrupt` определяет исполняемый блок прерывания для чтения
 
 Система команд:
 
@@ -88,10 +94,82 @@ comment         ::=     ";" <any symbols except "\n">
 - `PRINT_BY_INDEX`             -- записать значение из памяти в устройство вывода, по адресу (значению) вершины стека
 - `NOP`             -- ничего не выполнять
 - `HLT`     -- завершить выполнение программы
+## Организация памяти
 
+```
+    data memory
++------------------+
+| 00 :     in      |
+| 01 :     out     |
+| 02 :     ...     |
++------------------+
 
+ instruction memory 
++------------------+
+| 00 :     ...     |
+|          ...     |
+| n  :    struct   |
++------------------+
+
+```
+Пример инструкции в struct:
+`{"index": 12, "opcode": "JMP", "arg": 1}`
+
+Исходный код транслируется в файл, содержащий две секции:
+ 1) Данные
+ 2) Инструкции
+- У программиста нет доступа к памяти инструкций
+- Порты ввода-вывода отображаются в память. Для доступа к ним используются обращения к определенным заранее ячейкам в памяти данных
+- Прямая адресация
+- Все строки - массив символов, название переменной при трансляции заменяется на адрес, указывающий на число - количество символов в строке, где после хранится указанное число символов
+## Транслятор
+
+Интерфейс командной строки: `translator.py <input_file> <target_file>`
+
+Реализовано в модуле: [translator](translator.py)
+
+Этапы трансляции (функция `main`):
+
+1. Удаление комментариев
+2. Разделение секции данных и секции инструкций
+3. Определение `labels` и их адресов
+4. Конвертация инструкций в `struct` и подстановка адресов переменных
+5. Объединение данных и команд
+
+## Модель процессора
+```
+python machine.py <code_filepath> <stack_size> <input_filepath> <ticks_limit> <log_filepath>
+```
+### Data Path
+
+Реализован в классе `DataPath`.
+
+//тут должно быть изображение схемы//
+
+//тут описывающий логику текст//
+
+### Control Unit
+
+Реализован в классе `ControlUnit`.
+
+//тут должно быть изображение схемы//
+
+//тут описывающий логику текст//
 ## Тестирование
+Тестирование происходит при помощи Golden-тестов
+Тесты реализованы в: [golden_test.py](golden_test.py). 
 
+Конфигурации:
+- [golden/cat.yml](golden/cat.yml)
+- [golden/hello_world.yml](golden/hello_world.yml)
+- [golden/hello_user.yml](golden/hello_user.yml)
+- [golden/prob1.yml](golden/prob1.yml)
+
+Запустить тесты: `poetry run pytest . -v`
+
+Обновить конфигурацию golden tests:  `poetry run pytest . -v --update-goldens`
+
+CI при помощи Github Action: [.github/workflows/asm.yml](.github/workflows/asm.yml)
 
 ```text
 | ФИО                          | алг        | LoC  | code байт | code инстр. | инстр.    | такт.    | вариант |
