@@ -171,6 +171,161 @@ python machine.py <code_filepath> <stack_size> <input_filepath> <ticks_limit> <l
 
 CI при помощи Github Action: [.github/workflows/asm.yml](.github/workflows/asm.yml)
 
+Пример использования и журнал работы процессора на примере `hello_world`:
+in_source: |-
+  .data:
+    text STRING Hello World!!
+  .code:
+    PUSH_VAL text
+    PUSH text
+    loop:
+      JMP print
+
+    print:
+
+      PRINT_BY_INDEX
+      COMPARE
+      JEQ end
+      INC
+
+      JNE loop
+    end:
+      HLT
+in_stdin:
+
+out_code: |-
+  [{"index": 0, "opcode": "DATA_SIZE", "arg": 14},
+   {"index": 1, "opcode": "DATA_SIZE", "arg": "13"},
+   {"index": 2, "opcode": "DATA", "arg": 72},
+   {"index": 3, "opcode": "DATA", "arg": 101},
+   {"index": 4, "opcode": "DATA", "arg": 108},
+   {"index": 5, "opcode": "DATA", "arg": 108},
+   {"index": 6, "opcode": "DATA", "arg": 111},
+   {"index": 7, "opcode": "DATA", "arg": 32},
+   {"index": 8, "opcode": "DATA", "arg": 87},
+   {"index": 9, "opcode": "DATA", "arg": 111},
+   {"index": 10, "opcode": "DATA", "arg": 114},
+   {"index": 11, "opcode": "DATA", "arg": 108},
+   {"index": 12, "opcode": "DATA", "arg": 100},
+   {"index": 13, "opcode": "DATA", "arg": 33},
+   {"index": 14, "opcode": "DATA", "arg": 33},
+   {"index": 15, "opcode": "PUSH_VAL", "arg": 1},
+   {"index": 16, "opcode": "PUSH", "arg": 1},
+   {"index": 17, "opcode": "NOP"},
+   {"index": 18, "opcode": "JMP", "arg": 19},
+   {"index": 19, "opcode": "NOP"},
+   {"index": 20, "opcode": "PRINT_BY_INDEX"},
+   {"index": 21, "opcode": "COMPARE"},
+   {"index": 22, "opcode": "JEQ", "arg": 25},
+   {"index": 23, "opcode": "INC"},
+   {"index": 24, "opcode": "JNE", "arg": 17},
+   {"index": 25, "opcode": "NOP"},
+   {"index": 26, "opcode": "HLT"}]
+
+out_stdout: |
+  LoC: 18 , code instr. 12
+  ============================================================
+  Hello World!!
+
+out_log: |-
+  INFO      ::     SYSTEM      Starting execution
+  DEBUG     ::     SYSTEM      Instructions memory: [{'index': 15, 'opcode': <Opcode.PUSH_VAL: 'PUSH_VAL'>, 'arg': 1}, {'index': 16, 'opcode': <Opcode.PUSH: 'PUSH'>, 'arg': 1}, {'index': 17, 'opcode': <Opcode.NOP: 'NOP'>}, {'index': 18, 'opcode': <Opcode.JMP: 'JMP'>, 'arg': 19}, {'index': 19, 'opcode': <Opcode.NOP: 'NOP'>}, {'index': 20, 'opcode': <Opcode.PRINT_BY_INDEX: 'PRINT_BY_INDEX'>}, {'index': 21, 'opcode': <Opcode.COMPARE: 'COMPARE'>}, {'index': 22, 'opcode': <Opcode.JEQ: 'JEQ'>, 'arg': 25}, {'index': 23, 'opcode': <Opcode.INC: 'INC'>}, {'index': 24, 'opcode': <Opcode.JNE: 'JNE'>, 'arg': 17}, {'index': 25, 'opcode': <Opcode.NOP: 'NOP'>}, {'index': 26, 'opcode': <Opcode.HLT: 'HLT'>}]
+  DEBUG     ::     SYSTEM      Data memory: [0, 1, 13, 72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33, 33]
+  DEBUG     ::     SYSTEM      Data stack: []
+  INFO      ::     INSTR       Processing PUSH_VAL 1
+  DEBUG     ::     SYSTEM      Data stack: [13]
+  INFO      ::     INSTR       Processing PUSH 1
+  DEBUG     ::     SYSTEM      Data stack: [13, 1]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [13, 1]
+  INFO      ::     INSTR       Processing JMP 19
+  DEBUG     ::     SYSTEM      Data stack: [13, 1]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [13, 1]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [13, 1]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [13, 1]
+  INFO      ::     INSTR       Processing JEQ 25
+  DEBUG     ::     SYSTEM      Data stack: [13, 1]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 1
+  DEBUG     ::     SYSTEM      Data stack: [13, 2]
+  INFO      ::     INSTR       Processing JNE 17
+  DEBUG     ::     SYSTEM      Data stack: [13, 2]
+  INFO      ::     INSTR       Processing JMP 19
+  DEBUG     ::     SYSTEM      Data stack: [13, 2]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [13, 2]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [13, 2]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [13, 2]
+  INFO      ::     INSTR       Processing JEQ 25
+  DEBUG     ::     SYSTEM      Data stack: [13, 2]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 2
+  DEBUG     ::     SYSTEM      Data stack: [13, 3]
+  INFO      ::     INSTR       Processing JNE 17
+  DEBUG     ::     SYSTEM      Data stack: [13, 3]
+  INFO      ::     INSTR       Processing JMP 19
+  DEBUG     ::     SYSTEM      Data stack: [13, 3]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [13, 3]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [13, 3]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [13, 3]
+  INFO      ::     INSTR       Processing JEQ 25
+  DEBUG     ::     SYSTEM      Data stack: [13, 3]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 3
+  DEBUG     ::     SYSTEM      Data stack: [13, 4]
+  INFO      ::     INSTR       Processing JNE 17
+  DEBUG     ::     SYSTEM      Data stack: [13, 4]
+  INFO      ::     INSTR       Processing JMP 19
+  DEBUG     ::     SYSTEM      Data stack: [13, 4]
+  INFO      ::     INSTR       Processing NOP
+  DEBUG     ::     SYSTEM      Data stack: [13, 4]
+  INFO      ::     INSTR       Processing PRINT_BY_INDEX
+  DEBUG     ::     SYSTEM      Data stack: [13, 4]
+  INFO      ::     INSTR       Processing COMPARE
+  DEBUG     ::     SYSTEM      Data stack: [13, 4]
+  INFO      ::     INSTR       Processing JEQ 25
+  DEBUG     ::     SYSTEM      Data stack: [13, 4]
+  INFO      ::     INSTR       Processing INC
+  DEBUG     ::     ALU         Incrementing 4
+  DEBUG     ::     SYSTEM      Data stack: [13, 5]
+  INFO      ::     INSTR       Processing JNE 17
+  DEBUG     ::     SYSTEM      Data stack: [13, 5]
+  INFO      ::     INSTR       Processing JMP 19
+  DEBUG     ::     SYSTEM      Data stack: [13, 5]
+  INFO      ::     INSTR       Processing NOP
+
+ ........
+  Сокращено из-за больного размера 
+ ........
+  INFO      ::     INSTR       Processing HLT
+  DEBUG     ::     INTER       Have 1 interruptions
+  DEBUG     ::     INTER       Processing Interruption: HLT
+  INFO      ::     SYSTEM      Halting
+  INFO      ::     SYSTEM      Program finished: ticks = 318, instructions executed = 94
+
+
+Пример тестирования:
+```text
+============================= test session starts =============================
+collecting ... collected 4 items
+
+golden_test.py::test_translator_and_machine[golden/cat.yml] 
+golden_test.py::test_translator_and_machine[golden/hello_user.yml] 
+golden_test.py::test_translator_and_machine[golden/hello_world.yml] 
+golden_test.py::test_translator_and_machine[golden/prob1.yml] 
+
+============================== 4 passed in 3.48s ==============================
+PASSED       [ 25%]PASSED [ 50%]PASSED [ 75%]PASSED     [100%]
+```
+
 ```text
 | ФИО                          | алг        | LoC  | code байт | code инстр. | инстр.    | такт.    | вариант |
 | Маликов Александр Максимович | hello      | 18   | -         | 12          | 94        | 318      | -       |
