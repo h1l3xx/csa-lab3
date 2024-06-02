@@ -54,7 +54,7 @@ out_code: |-
    {"index": 14, "opcode": "HLT"}]
 
 out_stdout: |
-  LoC: 19
+  LoC: 19 , code instr. 14
   ============================================================
   Approximation
 

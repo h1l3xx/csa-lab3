@@ -49,7 +49,7 @@ out_code: |-
    {"index": 26, "opcode": "HLT"}]
 
 out_stdout: |
-  LoC: 18
+  LoC: 18 , code instr. 12
   ============================================================
   Hello World!!
 

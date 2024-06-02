@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+from typing import Tuple, List, Dict
 
 from isa import MAX_SIGN, MAX_UNSIGN, MIN_SIGN, Any, Opcode, write_code
 
@@ -144,10 +145,11 @@ def insert_labels(labels: dict, data: list[dict[str, str | int]], code: list[dic
             data.insert(0, {"index": -1, "opcode": Opcode.DATA.value, "arg": index})
 
         code.insert(index - data_length - 1, {"index": index, "opcode": Opcode.NOP.value})
-    return data + code
+    return data + code, len(code)
 
 
-def translate_stage_2(variables: dict[str, int], tokens: list[str | int | Opcode]) -> list[dict[str, int | str | Opcode | Any] | dict[str, int | Any]]:
+def translate_stage_2(variables: dict[str, int], tokens: list[str | int | Opcode]) -> tuple[
+    list[dict[str, str | int]], int]:
     code = []
     labels = {}
 
@@ -183,7 +185,7 @@ def translate_stage_2(variables: dict[str, int], tokens: list[str | int | Opcode
     return insert_labels(labels, data, code, data_length)
 
 
-def translate(text: str) -> list[dict[str, int | str | Opcode] | dict[str, int]]:
+def translate(text: str) -> tuple[list[dict[str, str | int]], int]:
     variables, tokens = translate_stage_1(text)
     return translate_stage_2(variables, tokens)
 
@@ -192,10 +194,10 @@ def main(source: str, target: str):
     with open(source) as f:
         text = f.read()
 
-    code = translate(text)
+    code, size = translate(text)
     write_code(target, code)
 
-    print("LoC:", len(text.split("\n")))
+    print("LoC:", len(text.split("\n")), ", code instr.", size)
 
 
 if __name__ == "__main__":

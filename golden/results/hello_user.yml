@@ -228,7 +228,7 @@ out_code: |-
    {"index": 107, "opcode": "HLT"}]
 
 out_stdout: |
-  LoC: 110
+  LoC: 110 , code instr. 77
   ============================================================
   What is your name?
   Hello, Sasha!
