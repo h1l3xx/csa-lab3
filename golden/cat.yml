@@ -1,12 +1,12 @@
 in_source: |-
   .code:
     loop:
-      JMP loop
+      JMP loop ; Ожидание прерывания
     interrupt:
       LOAD INPUT
       DUP
       
-      PUSH 35
+      PUSH 35 ; ASCII формат для системного конца слова в прерывании
       COMPARE
       
       POP
