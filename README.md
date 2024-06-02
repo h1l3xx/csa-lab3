@@ -172,6 +172,7 @@ python machine.py <code_filepath> <stack_size> <input_filepath> <ticks_limit> <l
 CI при помощи Github Action: [.github/workflows/asm.yml](.github/workflows/asm.yml)
 
 Пример использования и журнал работы процессора на примере `hello_world`:
+```text
 in_source: |-
   .data:
     text STRING Hello World!!
@@ -310,7 +311,7 @@ out_log: |-
   DEBUG     ::     INTER       Processing Interruption: HLT
   INFO      ::     SYSTEM      Halting
   INFO      ::     SYSTEM      Program finished: ticks = 318, instructions executed = 94
-
+```
 
 Пример тестирования:
 ```text
