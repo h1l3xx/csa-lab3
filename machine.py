@@ -3,10 +3,10 @@ from __future__ import annotations
 import argparse
 
 
-from machine.data_path import DataPath
-from machine.control_unit import ControlUnit
-from utils.isa import decode_data_line, read_code, read_data
-from utils.logger import Logger, LogLevel, Place
+from data_path import DataPath
+from control_unit import ControlUnit
+from isa import decode_data_line, read_code, read_data
+from logger import Logger, LogLevel, Place
 
 
 def simulate(input_file: str, stack_size: int, schedule: str | None, limit: int, log_file: str):

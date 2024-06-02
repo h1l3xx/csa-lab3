@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from machine.alu import ALU
-from utils.stack import Stack
+from alu import ALU
+from stack import Stack
 
 
 class DataPath:

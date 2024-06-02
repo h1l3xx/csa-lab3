@@ -3,7 +3,7 @@ import io
 import os
 import tempfile
 
-from machine import machine
+import machine
 import pytest
 import translator
 
